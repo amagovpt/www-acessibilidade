@@ -1,0 +1,13 @@
+#page-wrapper .page-content{
+    max-width: 100% !important;
+    padding: 0;
+    margin: 0;
+}
+
+@media screen and (min-width: 992px) {
+    #page-wrapper .page-content {
+        width: 100% !important;
+        padding: 0;
+        margin: 0;
+    }
+}

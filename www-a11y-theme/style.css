@@ -1,0 +1,17 @@
+/*
+ Theme Name: ama-a11y-theme
+ Description: AMA A11Y Theme for WordPress.
+ Author: Miguel Vieira
+ Version: 1.0.1
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap");
+@import url("./ama-icons/styles.css");
+@import url("./css/main.css");
+@import url("./css/top-bar.css");
+@import url("./css/sidebar-menu.css");
+@import url("./css/pagination.css");
+@import url("./css/footer.css");
+@import url("./css/blocks.css");
+@import url("./blocks/css/blocks-ama.css");
+@import url("./css/forms.css");

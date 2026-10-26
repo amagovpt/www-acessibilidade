@@ -1,0 +1,15 @@
+article h1 {
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+#main .page-header{
+    margin-bottom: unset;
+    padding-bottom: unset;
+    border-bottom: unset;
+}
+
+.page-content {
+    padding-top: 40px;
+}

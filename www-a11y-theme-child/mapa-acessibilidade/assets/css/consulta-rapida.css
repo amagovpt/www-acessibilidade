@@ -1,0 +1,228 @@
+.wcag-filtros-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-radius: 5px;
+    border: 2px solid #333333;
+    padding: 1rem;
+    z-index: 1;
+}
+
+.filtros-resultados {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 2rem;
+    padding: 0 .5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.filtros-resultados.nowrap {
+    flex-wrap: nowrap;
+}
+
+.filtro-item {
+    /** background-color: lightgoldenrodyellow; **/
+    padding-top: 1rem;
+}
+
+.filtros-label {
+    margin-top: -1.5rem;
+    width: fit-content;
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+
+#wcag-form {
+    gap: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: start;
+}
+
+#wcag-form > .lista-filtros {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    z-index: 1;
+    gap: 1.5rem;
+}
+
+.acoes-filtros {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: start;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.dark-theme .wcag-filtros-wrapper {
+    border: 2px solid #B6DCF6;
+}
+
+.wcag-filtros-wrapper .filtros-label {
+    margin-top: -2rem;
+    z-index: 2;
+    background-color: #FFF;
+}
+
+.wcag-filtros-wrapper .no-shrink {
+    flex-shrink: 0;
+}
+
+.dark-theme .wcag-filtros-wrapper .filtros-label {
+    background-color: #20242C;
+}
+
+.dark-theme .wcag-filtros-wrapper input[type=text] {
+    background-color: #20242C;
+    border: 1px solid #B6DCF6;
+    color: #B6DCF6;
+}
+
+.acoes-filtros button.btn[type=submit] {
+    background-color: #333399;
+}
+
+.dark-theme .acoes-filtros button.btn[type=submit] {
+    background-color: #B6DCF6;
+    color: #20242C;
+    border: 1px solid #B6DCF6;
+}
+
+.acoes-filtros button.btn[type=reset] {
+    background-color: transparent;
+    border: 1px solid #333399;
+    color: #333399;
+}
+
+.dark-theme .acoes-filtros button.btn[type=reset] {
+    border:1px solid #B6DCF6;
+    background-color: transparent;
+    color: #B6DCF6;
+}
+
+.principio {
+    color: #333399;
+}
+
+.dark-theme .principio,
+.dark-theme .diretriz {
+    color: #B6DCF6;
+}
+
+.diretriz {
+    color: #333333;
+}
+
+.diretriz:not(:first-child) {
+    margin-top: 2.5rem;
+}
+.principio ~ .descricao {
+    font-size: 1rem;
+    color: #707070;
+}
+
+.diretriz ~ .descricao {
+    font-size: .875rem;
+    color: #707070;
+}
+
+.dark-theme .principio ~ .descricao {
+    color: #B6DCF6;
+}
+
+.dark-theme .diretriz ~ .descricao {
+    color: #B6DCF6;
+}
+
+.criterio-sucesso {
+    display: block;
+    font-size: .875rem;
+    margin-bottom: .5rem;
+}
+
+.criterio-sucesso .icon.icon-info::before {
+    font-size: inherit;
+}
+
+.term-descricao.icon.icon-info::before {
+    font-size: 1rem;
+}
+.term-descricao.icon.icon-info {
+    color: var(--primary);
+}
+
+.dark-theme .term-descricao.icon.icon-info {
+    color: #b6dcf6;
+}
+
+#content .form-control {
+    border-color: #313335;
+}
+/**
+Escuro: #20242C;
+Claro: #B6DCF6
+**/
+
+#consulta-rapida-loading {
+    display: none;
+    width: 50px;
+    height: 50px;
+    background-image: url('../images/loading-spinner.gif');
+    background-repeat: no-repeat;
+    background-size: 50px;
+    background-position: center center;
+    transition: all 250ms ease-in-out;
+}
+
+.dark-theme #consulta-rapida-loading {
+    background-image: url('../images/loading-spinner-dark-mode.gif');
+}
+
+#consulta-rapida-loading.show {
+    display: block;
+}
+
+.btn_reset {
+    width: auto;
+    height: 50px;
+    border-radius: 30px;
+    background-color: #FFF;
+    color: #333399;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 30px;
+    padding-right: 30px;
+    border: 2px solid #333399;
+    line-height: 18px;
+    transition: all 250ms ease-in-out;
+}
+
+.btn_reset:hover {
+    background-color: #333399;
+    color: #FFF;
+}
+
+.dark-theme .btn_reset {
+    background-color: #B6DCF6;
+}
+
+.dark-theme .btn_reset:hover {
+    background-color: #333399;
+}
+
+#filtro-search {
+    max-height: 41px;
+}

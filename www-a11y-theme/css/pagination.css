@@ -1,0 +1,37 @@
+.pagination .page-item.active .page-link {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.pagination .page-link {
+  color: var(--primary);
+  background-color: #e4e4e4;
+}
+
+.pagination .page-link:hover {
+  color: #fff;
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.pagination a.next .arrow-right {
+  display: block;
+  transform: rotate(-90deg);
+  margin-right: -4px;
+}
+
+.pagination a.prev .arrow-left {
+  display: block;
+  transform: rotate(90deg);
+  margin-left: -4px;
+}
+
+.dark-theme .pagination a.page-link {
+  color: var(--primary);
+}
+
+.dark-theme .pagination .page-link:hover {
+  color: #fff;
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
