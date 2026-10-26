@@ -273,8 +273,6 @@ $icon = get_post_meta(get_the_id(),'icon');
         
         
   
-    <?php include "wp-content/themes/acessibilidade/includes/_change.php"; ?>
-    <?php include "wp-content/themes/acessibilidade/includes/_access-monitor.php"; ?>
 </main>
 
   
