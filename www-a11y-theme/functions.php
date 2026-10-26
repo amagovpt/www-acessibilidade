@@ -612,3 +612,60 @@ add_action('template_redirect', 'start_output_buffering');
  * Remove the <link> for the XMLRPC file of WordPress.
  */
 remove_action('wp_head', 'rsd_link');
+
+/**
+ * Snippet do assistente virtual guardado na opção "ai_agent".
+ *
+ * Só são impressas tags <script src="https://…"> de domínios autorizados (filtro
+ * "ama_ai_agent_allowed_hosts"); HTML e JavaScript inline são descartados, para que
+ * uma alteração indevida da opção não permita injetar código em todas as páginas.
+ */
+function ama_ai_agent_markup(): string
+{
+    $raw = (string) get_option('ai_agent');
+    if (trim($raw) === '') {
+        return '';
+    }
+
+    $allowed_hosts = array_map('strtolower', apply_filters('ama_ai_agent_allowed_hosts', ['virtualbrain.ai']));
+
+    $dom = new DOMDocument();
+    libxml_use_internal_errors(true);
+    $dom->loadHTML('<?xml encoding="utf-8" ?><div>' . $raw . '</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+    libxml_clear_errors();
+
+    $output = '';
+    foreach ($dom->getElementsByTagName('script') as $script) {
+        $src  = $script->getAttribute('src');
+        $host = strtolower((string) wp_parse_url($src, PHP_URL_HOST));
+
+        if (wp_parse_url($src, PHP_URL_SCHEME) !== 'https' || $host === '') {
+            continue;
+        }
+
+        $host_allowed = false;
+        foreach ($allowed_hosts as $allowed) {
+            if ($host === $allowed || str_ends_with($host, '.' . $allowed)) {
+                $host_allowed = true;
+                break;
+            }
+        }
+        if (!$host_allowed) {
+            continue;
+        }
+
+        $attributes = ' src="' . esc_url($src) . '"';
+        foreach ($script->attributes as $attribute) {
+            $name = strtolower($attribute->name);
+            if (in_array($name, ['async', 'defer'], true)) {
+                $attributes .= ' ' . $name;
+            } elseif ($name === 'id' || str_starts_with($name, 'data-')) {
+                $attributes .= ' ' . $name . '="' . esc_attr($attribute->value) . '"';
+            }
+        }
+
+        $output .= '<script' . $attributes . '></script>' . "\n";
+    }
+
+    return $output;
+}

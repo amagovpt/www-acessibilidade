@@ -2,63 +2,9 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-// Incluir biblioteca PHP de markdown
-include __DIR__ . "/libs/Parsedown/Parsedown.php";
-
-// Agarra no conteúdo markdown e transforma em HTML
-$Parsedown  = new Parsedown();
-$github_url = get_field('tutorial_github_url');
-
-$parsed_markdown_content = "";
-if ($Parsedown && $github_url !=='') {
-    $api_url            = str_replace('github.com', 'api.github.com/repos', $github_url) . '/contents/README.md';
-    $github_response    = wp_remote_get($api_url);
-    if (is_array($github_response) && !is_wp_error($github_response)) {
-        $body = json_decode($github_response['body'], true);
-        if (isset($body['content'])) {
-            // O conteúdo está codificado em base64
-            $readme_content = base64_decode($body['content']);
-
-            // Mostra o conteúdo
-            $parsed_markdown_content = add_id_to_titles($Parsedown->text($readme_content));
-        } else {
-            // Não foi possível ler o conteúdo
-            $parsed_markdown_content = 'Erro ao carregar o conteúdo';
-        }
-    }
-    // echo $Parsedown->text('##Hello _Parsedown_!');
-} else {
-    // Não foi posível ler o conteúdo remotamente
-    $parsed_markdown_content ='Erro ao carregar o conteúdo';
-}
-
-// Função para adicionar IDs automáticos aos <h2> tags
-function add_id_to_titles($html_content)
-{
-    // Use DOMDocument para manipular o HTML
-    $dom = new DOMDocument();
-
-    // Suprimir erros devido a HTML malformado
-    libxml_use_internal_errors(true);
-
-    $dom->loadHTML('<?xml encoding="utf-8" ?>' . $html_content);
-    libxml_clear_errors();
-
-    $h2_tags = $dom->getElementsByTagName('h2');
-    foreach ($h2_tags as $index => $h2) {
-        $id = 'titulo-' . ($index + 1);
-        $h2->setAttribute('id', $id);
-    }
-
-    // Extrair o corpo do conteúdo, excluindo o doctype e outras tags HTML extras
-    $body = $dom->getElementsByTagName('body')->item(0);
-    $html = '';
-    foreach ($body->childNodes as $child) {
-        $html .= $dom->saveHTML($child);
-    }
-
-    return $html;
-}
+// README do repositório GitHub do tutorial (só amagovpt), em HTML seguro e com cache — ver inc/security.php
+$github_url              = (string) get_field('tutorial_github_url');
+$parsed_markdown_content = ama_github_readme_html($github_url) ?? 'Erro ao carregar o conteúdo';
 
 wp_enqueue_style(
     "fulld-width",

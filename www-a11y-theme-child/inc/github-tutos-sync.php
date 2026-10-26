@@ -84,9 +84,11 @@ function tutos_convert_md_to_html(string $markdown): string
     }
     
     $parsedown = new Parsedown();
+    // Modo seguro: escapa HTML embutido no Markdown e links javascript:
+    $parsedown->setSafeMode(true);
     $html = $parsedown->text($markdown);
     
-    return tutos_add_id_to_titles($html);
+    return wp_kses_post(tutos_add_id_to_titles($html));
 }
 
 function tutos_add_id_to_titles(string $html_content): string
@@ -98,7 +100,7 @@ function tutos_add_id_to_titles(string $html_content): string
     $dom = new DOMDocument();
     libxml_use_internal_errors(true);
     
-    $dom->loadHTML('<?xml encoding="utf-8" ?>' . $html_content, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+    $dom->loadHTML('<?xml encoding="utf-8" ?>' . $html_content);
     libxml_clear_errors();
     
     $h2_tags = $dom->getElementsByTagName('h2');
@@ -142,6 +144,12 @@ function sincronizar_tutos_do_github()
         
         $owner = $matches[1];
         $repo = $matches[2];
+        
+        // Só são sincronizados repositórios de organizações autorizadas (ver inc/security.php)
+        if (!ama_github_parse_repo_url($github_url)) {
+            $errors[] = sprintf('Repositório não autorizado: %s', $github_url);
+            continue;
+        }
         $branch = 'main';
         
         if (preg_match('#/tree/([^/]+)#', $github_url, $branch_matches)) {

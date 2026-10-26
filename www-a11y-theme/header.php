@@ -13,11 +13,8 @@ defined('ABSPATH') || exit;
 	<link rel="icon" type="image/x-icon" href="<?= get_stylesheet_directory_uri() ?>/img/favicon.ico">
 	<?php
 
-	$AI_Agent = get_option("ai_agent");
-
-	if (!empty($AI_Agent)) {
-		echo $AI_Agent;
-	}
+	// Assistente virtual: só scripts de domínios autorizados (ver ama_ai_agent_markup() em functions.php)
+	echo ama_ai_agent_markup();
 	wp_head(); ?>
 </head>
 
