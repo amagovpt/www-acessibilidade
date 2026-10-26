@@ -1,0 +1,127 @@
+.custom-slider {
+  height: 340.67px;
+  width: 674px;
+  position: relative;
+  overflow: hidden;
+}
+
+.slide {
+  display: none;
+  text-align: left;
+}
+
+.slide.active {
+  text-align: left;
+  display: block;
+}
+
+.slide-title {
+  text-align: left;
+  font-size: 36px;
+  font-weight: 600;
+}
+
+.slide-content {
+  text-align: left;
+  font-size: 16px;
+  color: #000;
+}
+
+.slide-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #333399;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  text-decoration: none;
+}
+.dark-theme .slider-bullet {
+  background-color: #b6dcf6 !important;
+}
+
+.dark-theme .slide-button {
+    background-color: #b6dcf6;
+    color: #20242c;
+    border: 2px solid #b6dcf6;
+}
+.dark-theme .slide-title{
+  color: #b6dcf6 !important;
+}
+.slider-bottom {
+  text-align: center;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.slide-bullets{
+  display: flex;
+  padding: 10px 20px;
+}
+.slider-bullet {
+  display: flex;
+  border-radius: 50%;
+  background-color: #e4e4e4;
+  color: #333399;
+  height: 46px;
+  width: 46px;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  /* text-align: center; */
+  opacity: 1;
+}
+.slider-bullet.active {
+  display: flex;
+  border-radius: 50%;
+  background-color: #333399 !important;
+  color: white;
+  height: 46px;
+  width: 46px;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  /* text-align: center; */
+  opacity: 1;
+}
+
+.slider-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.slide {
+  flex: 1;
+  text-align: center;
+}
+
+.slide-space {
+  flex-grow: 4;
+}
+
+.slide-buttons {
+  display: inline-block;
+}
+.slide-button {
+  width: auto;
+  height: 50px;
+  border-radius: 30px;
+  background-color: #333399;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 30px;
+  padding-right: 30px;
+  border: 2px solid #333399;
+  font-weight: bold;
+  width: auto !important;
+  line-height: 18px;
+}
+

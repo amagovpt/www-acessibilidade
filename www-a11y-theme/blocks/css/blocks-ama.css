@@ -1,0 +1,658 @@
+.site-name {
+  font-size: 1.802rem;
+  line-height: 1.2;
+  font-family: var(--bs-font-sans-serif);
+  font-weight: 500;
+}
+
+@media (min-width: 576px) {
+  .site-name {
+    font-size: 2.488rem;
+  }
+}
+
+.dark-theme .site-name {
+  color: var(--quinary);
+}
+
+/** Cores **/
+.has-background.has-primaria-background-color {
+  background-color: var(--primary);
+}
+
+.has-text-color.has-primaria-color {
+  color: var(--primary);
+}
+
+.has-svg-color.has-primaria-fill-color {
+  fill: var(--primary) !important;
+}
+
+.has-svg-color.has-primaria-escura-fill-color {
+  fill: var(--primary-dark) !important;
+}
+
+.has-background.has-primaria-escura-background-color {
+  background-color: var(--primary-dark);
+}
+
+.has-text-color.has-primaria-escura-color {
+  color: var(--primary-dark);
+}
+
+.has-background.has-secundaria-background-color {
+  background-color: var(--secondary);
+}
+
+.has-text-color.has-vermelho-escuro-color {
+  color: var(--vermelho-escuro);
+}
+
+.has-svg-color.has-vermelho-escuro-fill-color {
+  fill: var(--vermelho-escuro);
+}
+
+.has-background.has-vermelho-escuro-background-color {
+  background-color: var(--vermelho-escuro);
+}
+
+.has-text-color.has-lilas-palido-color {
+  color: var(--lilas-palido);
+}
+
+.has-svg-color.has-lilas-palido-fill-color {
+  fill: var(--lilas-palido);
+}
+
+.has-background.has-lilas-palido-background-color {
+  background-color: var(--lilas-palido);
+}
+
+.has-text-color.has-lilas-gelo-color {
+  color: var(--lilas-gelo);
+}
+
+.has-svg-color.has-lilas-gelo-fill-color {
+  fill: var(--lilas-gelo);
+}
+
+.has-background.has-lilas-gelo-background-color {
+  background-color: var(--lilas-gelo);
+}
+
+.has-background.has-secundaria-background-color {
+  fill: var(--secondary);
+}
+
+.has-text-color.has-secundaria-color {
+  color: var(--secondary);
+}
+
+.has-svg-color.has-secundaria-fill-color {
+  fill: var(--secondary);
+}
+
+.has-background.has-terciaria-background-color {
+  background-color: var(--tertiary);
+}
+
+.has-text-color.has-terciaria-color {
+  color: var(--tertiary);
+}
+
+.has-svg-color.has-terciaria-fill-color {
+  fill: var(--tertiary);
+}
+
+.has-background.has-prata-background-color {
+  background-color: var(--prata);
+}
+
+.has-text-color.has-prata-color {
+  color: var(--prata);
+}
+
+.has-svg-color.has-prata-fill-color {
+  fill: var(--prata);
+}
+
+.has-background.has-ouro-background-color {
+  background-color: var(--ouro);
+}
+
+.has-text-color.has-ouro-color {
+  color: var(--ouro);
+}
+
+.has-svg.has-ouro-fill-color {
+  fill: var(--ouro);
+}
+
+.has-background.has-quaternaria-background-color {
+  background-color: var(--quaternary);
+}
+
+.has-text-color.has-quaternaria-color {
+  color: var(--quaternary);
+}
+
+.has-svg-color.has-quaternaria-fill-color {
+  fill: var(--quaternary);
+}
+
+.has-background.has-quaternaria-light-background-color {
+  background-color: var(--quaternary-light);
+}
+
+.has-text-color.has-quaternaria-light-color {
+  color: var(--quaternary-light);
+}
+
+.has-svg-color.has-quaternaria-light-fill-color {
+  fill: var(--quaternary-light);
+}
+
+.has-background.has-quinaria-background-color {
+  background-color: var(--quinary);
+}
+
+.has-text-color.has-quinaria-color {
+  color: var(--quinary);
+}
+
+.has-svg-color.has-quinaria-fill-color {
+  fill: var(--quinary);
+}
+
+.has-background.has-senaria-background-color {
+  background-color: var(--senary);
+}
+
+.has-text-color.has-senaria-color {
+  color: var(--senary);
+}
+
+.has-svg-color.has-senaria-fill-color {
+  fill: var(--senary);
+}
+
+.has-background.has-senaria-light-background-color {
+  background-color: var(--senary-light);
+}
+
+.has-text-color.has-senaria-light-color {
+  color: var(--senary-light);
+}
+
+.has-svg-color.has-senaria-light-fill-color {
+  fill: var(--senary-light);
+}
+
+.has-background.has-branco-background-color {
+  background-color: #fff;
+}
+
+.has-text-color.has-branco-color {
+  color: #fff;
+}
+
+.has-svg-color.has-branco-fill-color {
+  color: #fff;
+}
+
+.has-background.has-preto-background-color {
+  background-color: #000;
+}
+
+.has-text-color.has-preto-color {
+  color: #000;
+}
+
+.has-svg-color.has-preto-fill-color {
+  fill: #000;
+}
+
+.has-background.has-prata-background-color {
+  background-color: #adadad;
+}
+
+.has-text-color.has-prata-color {
+  color: #adadad;
+}
+
+.has-svg-color.has-prata-fill-color {
+  fill: #adadad;
+}
+
+.has-background.has-ouro-light-background-color {
+  background-color: var(--ouro-light);
+}
+
+.has-text-color.has-ouro-light-color {
+  color: var(--ouro-light);
+}
+
+.has-svg-color.has-ouro-light-fill-color {
+  color: var(--ouro-light);
+}
+
+.has-background.has-prata-light-background-color {
+  background-color: var(--prata-light);
+}
+
+.has-text-color.has-prata-light-color {
+  color: var(--prata-light);
+}
+
+.has-svg-color.has-prata-light-fill-color {
+  fill: var(--prata-light);
+}
+
+.has-background.has-bronze-light-background-color {
+  background-color: var(--bronze-light);
+}
+
+.has-svg-color.has-bronze-light-fill-color {
+  color: var(--bronze-light);
+}
+
+.step-card-icon-container.card_primary {
+  fill: var(--primary);
+  background-color: #dfdff6;
+}
+
+.step-card-icon-container.card_red_dark {
+  fill: var(--vermelho-escuro);
+  background-color: #f4d7ed;
+}
+
+.step-card-icon-container.card_green {
+  fill: var(--verde-dark);
+  background-color: var(--verde-light);
+}
+
+/** Sections and WP Columns dark-theme style **/
+
+.dark-theme .step-card-icon-container.card_primary {
+  fill: var(--quinary);
+  border: 2px solid var(--quinary);
+  background-color: transparent;
+}
+
+.dark-theme .step-card-icon-container.card_red_dark {
+  fill: #f4d7ed;
+  border: 2px solid #f4d7ed;
+  background-color: transparent;
+}
+
+.dark-theme .step-card-icon-container.card_green {
+  fill: var(--verde-light);
+  border: 2px solid var(--verde-light);
+  background-color: transparent;
+}
+.dark-theme
+  .wp-block-lazyblock-section.has-background.has-branco-background-color {
+  /* background-color: var(--body-dark); */
+  background-color: var(--body-lighter-dark);
+}
+
+.dark-theme
+  .wp-block-lazyblock-section.has-background.has-prata-background-color {
+  background-color: var(--body-lighter-dark);
+}
+
+.dark-theme
+  .wp-block-lazyblock-section.has-background.has-lilas-gelo-background-color {
+  background-color: var(--body-lighter-dark);
+}
+
+.dark-theme
+  .wp-block-lazyblock-section.has-background.has-terciaria-background-color {
+  background-color: var(--body-lighter-dark);
+}
+
+.dark-theme .wp-block-columns.has-background.has-branco-background-color {
+  background-color: var(--body-dark);
+}
+
+.dark-theme .wp-block-columns.has-background.has-prata-background-color {
+  background-color: var(--body-lighter-dark);
+}
+
+.dark-theme .wp-block-columns.has-background.has-terciaria-background-color {
+  background-color: var(--body-lighter-dark);
+}
+
+.espacamento-ama {
+  min-height: 1rem;
+}
+
+hr.linha {
+  border-top: 2px solid #212529;
+}
+
+.dark-theme hr.linha {
+  border-top: 2px solid var(--quinary);
+}
+
+.wp-block-lazyblock-ligacao {
+  margin-bottom: 1rem;
+  color: var(--primary);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+}
+
+.wp-block-lazyblock-ligacao a {
+  text-decoration: none;
+}
+
+.wp-block-lazyblock-ligacao:hover a {
+  text-decoration: underline;
+}
+
+.dark-theme .wp-block-lazyblock-ligacao,
+.dark-theme .wp-block-lazyblock-ligacao span.icon {
+  color: var(--quinary);
+}
+
+.wp-block-lazyblock-indicador {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border-radius: 5px;
+  padding: 40px;
+}
+
+.wp-block-lazyblock-indicador .titulo {
+  color: inherit;
+  display: block;
+  font-size: 65px;
+  font-weight: 600;
+}
+
+.wp-block-lazyblock-indicador .corpo {
+  color: inherit;
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/** Accordion **/
+.accordion.wp-block-lazyblock-accordion {
+  margin-bottom: 1rem;
+}
+
+.accordion.wp-block-lazyblock-accordion .accordion-item {
+  background-color: transparent;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.dark-theme .accordion.wp-block-lazyblock-accordion .accordion-item {
+  border: 1px solid var(--darker-primary);
+}
+
+.accordion.wp-block-lazyblock-accordion button.accordion-button,
+.accordion.wp-block-lazyblock-accordion button.accordion-button.collapsed {
+  background-color: var(--darker-tertiary);
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.dark-theme .accordion.wp-block-lazyblock-accordion button.accordion-button,
+.dark-theme
+  .accordion.wp-block-lazyblock-accordion
+  button.accordion-button.collapsed {
+  background-color: var(--primary);
+  color: var(--quinary);
+}
+
+.accordion.wp-block-lazyblock-accordion
+  .accordion-header
+  .accordion-button:not(.collapsed) {
+  color: var(--primary);
+}
+
+.dark-theme
+  .accordion.wp-block-lazyblock-accordion
+  .accordion-header
+  .accordion-button:not(.collapsed) {
+  color: var(--quinary);
+}
+
+.dark-theme
+  .accordion.wp-block-lazyblock-accordion
+  .accordion-button:not(.collapsed)::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23B6DCF6'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+.dark-theme
+  .accordion.wp-block-lazyblock-accordion
+  .accordion-button.collapsed::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23B6DCF6'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+.accordion.wp-block-lazyblock-accordion button.accordion-button:focus {
+  border-color: var(--primary);
+  outline: 0;
+  /*box-shadow: 0 0 0 .25rem var(--primary)!important;*/
+}
+
+.dark-theme
+  .accordion.wp-block-lazyblock-accordion
+  button.accordion-button:focus {
+  border-color: var(--quinary) !important;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem var(--quinary) !important;
+}
+
+.accordion.wp-block-lazyblock-accordion .accordion-header .accordion-button {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.ama-quote-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: flex-start;
+}
+
+.ama-quote-border {
+  min-height: 100%;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 4px;
+  background-color: var(--primary);
+}
+
+.ama-quote-text-wrapper {
+  flex-grow: 1;
+  background-color: #fafafa;
+  padding: 1.5rem;
+}
+
+.dark-theme .ama-quote-text-wrapper,
+.dark-theme .ama-quote-text-wrapper.has-background.has-branco-background-color,
+.dark-theme .ama-quote-text-wrapper.has-background.has-prata-background-color,
+.dark-theme
+  .ama-quote-text-wrapper.has-background.has-prata-light-background-color,
+.dark-theme
+  .ama-quote-text-wrapper.has-background.has-terciaria-background-color {
+  background-color: var(--body-lighter-dark);
+}
+
+.ama-quote-text {
+  font-family: inherit;
+  font-style: italic;
+  line-height: 1.5;
+  position: relative;
+  margin-top: 24px;
+}
+
+.ama-quote-text:not(.no-quote)::before {
+  content: '"';
+  position: absolute;
+  font-size: 48px;
+  top: -19px;
+  left: -9px;
+  height: fit-content;
+  line-height: 24px;
+}
+
+.ama-quote-author {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/**
+============================
+|| AMA - Card Lazybock
+============================
+ */
+.ama-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.ama-card.full-height {
+  height: 100%;
+}
+
+.ama-card .card-top {
+  padding: 1.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.ama-card .card-top.with-img-bg {
+  padding: 0;
+  overflow: hidden;
+}
+
+.card-top.with-img-bg > img {
+  max-height: 250px;
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+}
+
+.ama-card .card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  flex-grow: 2;
+  padding: 1.5rem;
+}
+
+.dark-theme .ama-card .card-body {
+  /* background-color: #20242c; */
+  background-color: var(--body-lighter-dark);
+  color: var(--quinary);
+}
+
+.dark-theme .ama-card .card-top {
+  background-color: #20242c;
+  color: var(--quinary);
+}
+
+.card-footer {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  margin-top: auto;
+  width: 100%;
+  border-top: unset;
+  justify-content: center;
+}
+
+.dark-theme .ama-card .card-footer {
+  /* background-color: #20242c; */
+  background-color: var(--body-lighter-dark);
+  color: var(--quinary);
+}
+
+.dark-theme .ama-card.has-background.has-branco-background-color {
+  background-color: #20242c;
+}
+.dark-theme .ama-card.has-background.has-branco-background-color {
+  background-color: #20242c;
+}
+
+.dark-theme .ama-card.has-background.has-prata-background-color {
+  background-color: var(--primary);
+}
+/**
+============================
+|| AMA - Step Card Lazybock
+============================
+ */
+
+.step-card-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 30px;
+}
+
+.step-card-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 150px;
+  padding: 10px;
+}
+
+.step-card-icon {
+  margin-top: 20px;
+  font-size: 100px !important;
+}
+
+.step-card-icon::before {
+  font-size: 100px !important;
+}
+
+.step-card-container h3 {
+  width: 300px;
+  text-align: left;
+}
+
+@media (max-width: 575.98px) {
+  .step-card-icon-container {
+    width: 115px;
+    height: 115px;
+    margin-right: 10px;
+  }
+
+  .step-card-container h3 {
+    width: 220px;
+  }
+
+  .step-card-icon {
+    margin-top: 20px;
+    font-size: 80px !important;
+  }
+}
+
+/** TODO: DARK MODE PARA O CARD **/
+
+/* DARK_MODE_SECTIONS */
+
+.dark-theme .dark_mode_banner {
+  background-color: #20242c;
+}

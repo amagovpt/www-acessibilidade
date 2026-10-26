@@ -1,0 +1,113 @@
+.form-control.is-valid,
+.was-validated .form-control:valid {
+    border-color: var(--success);
+    box-shadow: unset;
+    background-image: unset;
+}
+
+.form-control.is-invalid,
+.was-validated .form-control:invalid {
+    border-color: var(--danger);
+    box-shadow: unset;
+    background-image: unset;
+}
+
+input[type="text"].form-control,
+input[type="email"].form-control,
+input[type="url"].form-control,
+input[type="tel"].form-control,
+input[type="number"].form-control,
+input[type="password"].form-control,
+textarea.form-control,
+select.form-control {
+    width: 100%;
+    padding: 0.5em;
+    margin: 0.5em 0;
+    border: 2px solid var(--primary);
+    border-radius: 0;
+    box-sizing: border-box;
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+.was-validated input[type="text"].form-control:invalid,
+.was-validated input[type="email"].form-control:invalid,
+.was-validated input[type="url"].form-control:invalid,
+.was-validated input[type="tel"].form-contro:invalid,
+.was-validated input[type="number"].form-control:invalid,
+.was-validated input[type="password"].form-control:invalid,
+.was-validated textarea.form-control:invalid,
+.was-validated select.form-control:invalid {
+    border-color: var(--danger);
+    box-shadow: unset;
+}
+
+.was-validated input[type="text"].form-control:invalid:focus,
+.was-validated input[type="email"].form-control:invalid:focus,
+.was-validated input[type="url"].form-control:invalid:focus,
+.was-validated input[type="tel"].form-contro:invalid:focus,
+.was-validated input[type="number"].form-control:invalid:focus,
+.was-validated input[type="password"].form-control:invalid:focus,
+.was-validated textarea.form-control:invalid:focus,
+.was-validated select.form-control:invalid:focus {
+    border-color: var(--danger);
+    box-shadow: 0 0 0 3px var(--warning);
+}
+
+.dark-theme input[type="text"].form-control,
+.dark-theme input[type="email"].form-control,
+.dark-theme input[type="url"].form-control,
+.dark-theme input[type="tel"].form-control,
+.dark-theme input[type="number"].form-control,
+.dark-theme input[type="password"].form-control,
+.dark-theme textarea.form-control,
+.dark-theme select.form-control {
+    background-color: var(--body-dark);
+    border-color: var(--quinary);
+    color: var(--quinary);
+}
+
+input[type="text"].form-control:focus,
+input[type="email"].form-control:focus,
+input[type="url"].form-control:focus,
+input[type="tel"].form-control:focus,
+input[type="number"].form-control:focus,
+input[type="password"].form-control:focus,
+textarea.form-control:focus,
+select.form-control:focus {
+    box-shadow: 0 0 0 3px var(--warning, #FFC107);
+}
+
+.ama.invalid-feedback {
+    display: block;
+    visibility: hidden;
+}
+
+.ama.invalid-feedback.show {
+    visibility: visible;
+}
+
+@media screen and (min-width: 576px) and (max-width: 767.98px) {
+    #access [type=submit] {
+        margin-top: 38px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 992px) {
+    #access [type=submit] {
+        margin-top: 38px;
+    }
+}
+
+@media screen and (min-width: 991.98px) and (max-width: 1199.98px) {
+    #access [type=submit] {
+        margin-top: 62px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    #access [type=submit] {
+        margin-top: 38px;
+    }
+}
+
