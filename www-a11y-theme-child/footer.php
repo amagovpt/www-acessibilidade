@@ -21,6 +21,7 @@ defined( 'ABSPATH' ) || exit;
         <div class="footer-logos">
             <?php dynamic_sidebar( 'Footer' ); ?>
         </div>
+        <p class="mt-3"><?= ama_cookie_settings_button() ?></p>
         <?php dynamic_sidebar( 'Copyright' ); ?>
     </div>
 </footer>
