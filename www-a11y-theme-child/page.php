@@ -49,7 +49,6 @@ get_header();
                     <div class="d-none d-lg-flex col-lg-4 d-flex justify-content-center featured-image">
                         <div class="featured-image">
                             <?php
-                            var_dump(get_field('ama_icon_destaque'));
                                 if(has_post_thumbnail()) {
                                     the_post_thumbnail();
                                 } elseif(get_field('ama_icon_destaque')) {
