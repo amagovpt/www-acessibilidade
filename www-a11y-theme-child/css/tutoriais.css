@@ -1,0 +1,205 @@
+/* Tutoriais (inc/tutoriais.php). Adaptado do tema "a11y-lab". */
+
+.tutorial-layout {
+  display: grid;
+  grid-template-columns: 14rem minmax(0, 1fr) 18rem;
+  grid-template-rows: auto auto 1fr;
+  column-gap: 3rem;
+  align-items: start;
+  padding-bottom: 3rem;
+}
+
+/* Índice das páginas, à esquerda */
+
+.tutorial-nav {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  position: sticky;
+  top: 1rem;
+}
+
+.tutorial-nav-title {
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.tutorial-nav ul,
+.tutorial-toc ul {
+  padding-left: 1.25rem;
+}
+
+.tutorial-nav li,
+.tutorial-toc li {
+  margin-bottom: 0.35rem;
+}
+
+.tutorial-nav a,
+.tutorial-toc a {
+  text-decoration: none;
+}
+
+.tutorial-nav a:hover,
+.tutorial-nav a:focus-visible,
+.tutorial-toc a:hover,
+.tutorial-toc a:focus-visible {
+  text-decoration: underline;
+}
+
+.tutorial-nav li::marker,
+.tutorial-toc li::marker {
+  color: var(--primary);
+}
+
+.tutorial-nav a[aria-current="page"],
+.tutorial-toc a[aria-current="location"] {
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 0.15em;
+  text-underline-offset: 0.2em;
+}
+
+.tutorial-nav li:has(> a[aria-current="page"]),
+.tutorial-toc li:has(> a[aria-current="location"]) {
+  list-style-type: square;
+}
+
+/* Título */
+
+.tutorial-title {
+  grid-column: 2;
+  grid-row: 1;
+  padding-bottom: 1.5rem;
+  border-bottom: 3px solid var(--secondary);
+}
+
+/* Links de acesso rápido: fechados no fluxo central; abertos, na coluna da direita */
+
+.tutorial-toc {
+  grid-column: 2;
+  grid-row: 2;
+  margin-bottom: 1.5rem;
+}
+
+.tutorial-toc details[open] {
+  position: sticky;
+  top: 1rem;
+}
+
+.tutorial-layout:has(.tutorial-toc details[open]) > .tutorial-toc {
+  grid-column: 3;
+  grid-row: 1 / span 3;
+  position: sticky;
+  top: 1rem;
+}
+
+.tutorial-toc summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.tutorial-toc summary:focus-visible,
+.tutorial-start a:focus-visible {
+  outline: 3px solid var(--quaternary);
+  outline-offset: 3px;
+}
+
+/* Conteúdo */
+
+.tutorial-content {
+  grid-column: 2;
+  grid-row: 3;
+  min-width: 0;
+}
+
+.tutorial-layout--intro .tutorial-content {
+  grid-row: 2 / span 2;
+}
+
+.tutorial-content [id] {
+  scroll-margin-top: 1rem;
+}
+
+/* Apresentação do tutorial */
+
+.tutorial-start a {
+  display: inline-block;
+  padding: 0.75rem 1.25rem;
+  background-color: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 0.25rem;
+}
+
+.tutorial-start a::after {
+  content: " →";
+}
+
+.tutorial-start a:hover {
+  background-color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* Página anterior / seguinte */
+
+.tutorial-pagination ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  list-style: none;
+  padding: 1.5rem 0 0;
+  margin-top: 2rem;
+  border-top: 1px solid var(--prata);
+}
+
+.tutorial-pagination-next {
+  margin-left: auto;
+  text-align: right;
+}
+
+/* Modo escuro */
+
+.dark-theme .tutorial-nav li::marker,
+.dark-theme .tutorial-toc li::marker {
+  color: var(--quinary);
+}
+
+.dark-theme .tutorial-start a {
+  background-color: var(--quinary);
+  color: var(--body-dark);
+}
+
+/* Tablet: o índice dos títulos passa para o fluxo central */
+
+@media (max-width: 1199.98px) {
+  .tutorial-layout {
+    grid-template-columns: 14rem minmax(0, 1fr);
+  }
+
+  .tutorial-layout:has(.tutorial-toc details[open]) > .tutorial-toc {
+    grid-column: 2;
+    grid-row: 2;
+    position: static;
+  }
+
+  .tutorial-toc details[open] {
+    position: static;
+  }
+}
+
+/* Telemóvel: uma só coluna, pela ordem do HTML */
+
+@media (max-width: 767.98px) {
+  .tutorial-layout {
+    display: block;
+  }
+
+  .tutorial-nav {
+    position: static;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--prata);
+  }
+}
