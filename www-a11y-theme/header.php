@@ -19,6 +19,7 @@ defined('ABSPATH') || exit;
 </head>
 
 <body <?php body_class(); ?>>
+	<?php wp_body_open(); ?>
 	<header id="wrapper-navbar" aria-label="Cabeçalho da página do <?= get_bloginfo('name') ?>">
 		<div class="skip-to-content">
 			<div class="container">

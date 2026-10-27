@@ -11,7 +11,6 @@ $(document).ready(function () {
 			app.experienceMenu();
 			app.smallMenu();
             app.onLoadResize();
-            app.cookies();
 			app.darkMode();
         },
 		
@@ -138,12 +137,6 @@ $(document).ready(function () {
             });
         },
 
-        //COOKEIS
-        cookies:function(){
-            $( ".btn_cookies" ).click(function() {
-                $( "#cookies_bar" ).fadeOut( "slow");
-            });
-        },
 		
 
         //EXPERIENCE MENU - OPEN/CLOSE
@@ -349,105 +342,6 @@ $(document).ready(function () {
     }
 
 })
-
-
-
-
-//COOKEIS
-
-$(document).ready(function() {
-    listenUser();
-    $("button.btn_cookies").click(function(){
-        createCookie();
-    });
-    
-    $("button.btn_no_cookies").click(function(){
-        noCookie();
-    });
-    
-});
-
-if (document.cookie.indexOf('AcessibilidadeGovGeradorCookie=true') > -1) {
-    $(".cookies_bar").hide();
-    
-
-    
-}else if(getCookie()==false || getCookie()=='false'){
-    $(".cookies_bar").hide();
-}else{
-    $(".cookies_bar").show();
-}
-
-function noCookie() {
-    $('.cookies_bar').slideDown("slow");
-    setCookie(false)  
-}
-
-function createCookie(){
-
-    var dataExpira = new Date()
-    dataExpira.setTime(dataExpira.getTime() + 60*24*60*60*1000);
-    document.cookie = 'AcessibilidadeGovGeradorCookie=true; expires=' + dataExpira +'; path=/';
-    $('.cookies').hide();
-    /*(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-35831726-1', 'auto');
-    ga('send', 'pageview');*/
-
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-35831726-11');
-    
-}
-
-function setCookie(id){
-    var AcessibilidadeGovGeradorCookie = id;
-    sessionStorage.setItem('AcessibilidadeGovGeradorCookie', AcessibilidadeGovGeradorCookie);
-}
-
-function getCookie(){
-    var AcessibilidadeGovGeradorCookie = sessionStorage.getItem('AcessibilidadeGovGeradorCookie');
-    return AcessibilidadeGovGeradorCookie;
-}	
-
-function listenUser(){
-
-    $(document).bind("click scroll", triggerUser);
-
-    var flag = false;
-    var refreshId = null
-    function triggerUser(e) {
-        if(flag == false){
-            refreshId = setInterval(setTime, 1000);
-            flag = true;
-        }
-
-    }
-    
-    var totalSeconds = 0;
-
-    function setTime() {
-
-        ++totalSeconds;
-
-        if(totalSeconds == 20){
-            $( "#cookies_bar" ).fadeOut( "slow");
-            createCookie();
-            clearInterval(refreshId);
-        }
-        
-    }
-    
-
-
-}
-
-
 
 
 

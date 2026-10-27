@@ -667,5 +667,6 @@ function ama_ai_agent_markup(): string
         $output .= '<script' . $attributes . '></script>' . "\n";
     }
 
-    return $output;
+    // Permite ao tema filho condicionar o carregamento ao consentimento de cookies.
+    return (string) apply_filters('ama_ai_agent_markup', $output);
 }
