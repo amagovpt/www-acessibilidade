@@ -2,6 +2,7 @@
 require_once get_stylesheet_directory() . '/inc/github-tutos-sync.php';
 require_once get_stylesheet_directory() . '/inc/security.php';
 require_once get_stylesheet_directory() . '/inc/tutoriais.php';
+require_once get_stylesheet_directory() . '/inc/publicacoes.php';
 require_once get_stylesheet_directory() . '/inc/cookie-consent.php';
 require_once get_stylesheet_directory() . '/inc/helper-functions.php';
 require_once get_stylesheet_directory() . '/settings/index.php';
