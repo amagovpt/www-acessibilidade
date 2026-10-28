@@ -69,11 +69,13 @@ function ama_ai_agent_markup_unfiltered(): string
 }
 
 /**
- * Página com a política de cookies/privacidade (Definições > Privacidade), se existir.
+ * Política de privacidade da ARTE, que cobre todos os sítios da ARTE e lista os seus cookies (issue #7).
  */
+const AMA_PRIVACY_POLICY_URL = 'https://www.arte.gov.pt/politica-de-privacidade/';
+
 function ama_cookie_policy_url(): string
 {
-    return (string) apply_filters('ama_cookie_policy_url', get_privacy_policy_url());
+    return (string) apply_filters('ama_cookie_policy_url', AMA_PRIVACY_POLICY_URL);
 }
 
 /**
@@ -223,7 +225,7 @@ function ama_cookie_banner(): void
             <h2 id="ama-cookie-banner-title" class="ama-cookie-banner__title" tabindex="-1">Cookies no acessibilidade.gov.pt</h2>
             <p>Usamos apenas os cookies necessários para o site funcionar. Alguns conteúdos de terceiros, como vídeos, só são carregados se o permitir.</p>
             <?php if ($policy_url !== '') : ?>
-                <p><a href="<?= esc_url($policy_url) ?>">Saiba mais na política de privacidade</a></p>
+                <p><a href="<?= esc_url($policy_url) ?>">Saiba mais na política de privacidade da ARTE</a></p>
             <?php endif; ?>
 
             <form class="ama-cookie-banner__settings" id="ama-cookie-settings" hidden>

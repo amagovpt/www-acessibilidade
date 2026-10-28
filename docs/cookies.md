@@ -43,13 +43,48 @@ Implementado no tema filho (`www-a11y-theme-child`) na sequência da issue #3.
 
 Esta tabela é gerada na página com o shortcode `[ama_cookies]`.
 
+## Política de privacidade (issue #7)
+
+O site não tem política própria: usa a [política de privacidade da ARTE](https://www.arte.gov.pt/politica-de-privacidade/), que cobre todos os sítios da ARTE e tem a lista dos cookies de cada um. O aviso de cookies, o menu do rodapé e o formulário de contacto ligam para ela, e a página "Termos e Condições" foi retirada.
+
+As alterações de conteúdo (menu, páginas e formulário) estão em `scripts/politica-privacidade-arte.php`:
+
+```sh
+php scripts/politica-privacidade-arte.php /caminho/para/wordpress            # mostra o que muda
+php scripts/politica-privacidade-arte.php /caminho/para/wordpress --aplicar  # aplica
+```
+
+### Para acrescentar à tabela de cookies da ARTE
+
+No formato da tabela da ARTE (Cookie | Domínio | Propósito | Data de expiração):
+
+| Cookie | Domínio | Propósito | Data de expiração |
+|---|---|---|---|
+| `ama_consent` | acessibilidade.gov.pt | Guarda as escolhas do visitante sobre conteúdos de terceiros (vídeos do YouTube e, quando existe, assistente virtual). Estritamente necessário. | 6 meses |
+
+Armazenamento no navegador (não são cookies, mas a ePrivacy também os abrange; todos estritamente necessários, nenhum sai do navegador):
+
+| Nome | Domínio | Propósito | Data de expiração |
+|---|---|---|---|
+| `darkMode` (localStorage) | acessibilidade.gov.pt | Lembra se o visitante escolheu o modo escuro | Até o visitante o apagar |
+| `dark_mode` (sessionStorage) | acessibilidade.gov.pt, incluindo /gerador | Mantém o modo escuro durante a visita | Sessão |
+| `ama_consent_message` (sessionStorage) | acessibilidade.gov.pt | Mostra a confirmação da escolha de cookies depois de a página recarregar | Sessão |
+| ID do botão (sessionStorage) | acessibilidade.gov.pt/gerador | Lembra que secções do gerador estão abertas ou fechadas | Sessão |
+
+Terceiros, só com consentimento:
+
+- **YouTube** (Google Ireland Limited): os vídeos só são carregados a partir de `youtube-nocookie.com` depois de o visitante o permitir. A tabela da ARTE já tem uma linha para os cookies dos vídeos incorporados; basta acrescentar acessibilidade.gov.pt.
+- **Assistente virtual** (`virtualbrain.ai`): só existe se a opção `ai_agent` estiver preenchida, e só carrega com consentimento.
+
+Não usamos: o servidor não envia cookies nas páginas públicas, e nem o site nem o `/gerador` usam o Google Analytics (`_ga`, `_gid`, `_gat`). Na tabela da ARTE, a linha "Maioria dos sites da ARTE" do Google Analytics não deve incluir o acessibilidade.gov.pt. Os cookies do WordPress (`wordpress_logged_in_*`, `wordpress_sec_*`, `wp-settings-*`) só existem para quem entra na área de gestão.
+
 ## Configuração (filtros)
 
 | Filtro | Por omissão | Uso |
 |---|---|---|
 | `ama_cookie_services` | `youtube` e, se houver `ai_agent`, `assistente` | Acrescentar ou alterar serviços |
 | `ama_cookie_consent_version` | `1` | Incrementar quando a política mudar, para pedir consentimento de novo |
-| `ama_cookie_policy_url` | `get_privacy_policy_url()` | Ligação "Saiba mais" do aviso |
+| `ama_cookie_policy_url` | `https://www.arte.gov.pt/politica-de-privacidade/` | Ligação "Saiba mais" do aviso |
 | `ama_ai_agent_markup` | — | HTML do assistente; o tema filho usa-o para o bloquear |
 
 ### Acrescentar um serviço (ex.: estatísticas)
@@ -84,6 +119,5 @@ O script do serviço tem de ser impresso já bloqueado:
 
 ## Pendente
 
-- Criar a página de política de privacidade/cookies e defini-la em **Definições ➜ Privacidade**.
-- O gerador (`/gerador`, repositório `amagovpt/a11y-da`) precisa da mesma limpeza: remover o aviso placebo e o `gtag.js`.
-- Alojar a fonte Noto Sans localmente: hoje vem de `fonts.googleapis.com`, que recebe o IP de cada visitante.
+- Enviar à ARTE a lista acima, para a tabela de cookies da política de privacidade.
+- O `/gerador` ainda carrega a fonte Lato de `fonts.googleapis.com` (repositório `amagovpt/a11y-da`).
