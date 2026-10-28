@@ -94,6 +94,21 @@
   border-color: var(--quinary);
 }
 
-.ama-cookie-settings-button {
+/* Mesmas cores dos links do site; o .btn-link:hover do tema pai pinta o texto de branco. */
+.btn-link.ama-cookie-settings-button,
+.btn-link.ama-cookie-settings-button:hover,
+.btn-link.ama-cookie-settings-button:active {
+  color: var(--primary);
   text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.btn-link.ama-cookie-settings-button:hover {
+  text-decoration: none;
+}
+
+.dark-theme .btn-link.ama-cookie-settings-button,
+.dark-theme .btn-link.ama-cookie-settings-button:hover,
+.dark-theme .btn-link.ama-cookie-settings-button:active {
+  color: var(--quinary);
 }
