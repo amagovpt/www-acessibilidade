@@ -141,22 +141,57 @@
   text-decoration: underline;
 }
 
-/* Página anterior / seguinte */
+/* Página anterior / seguinte (como no Lab) */
+
+.tutorial-pagination {
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid var(--secondary);
+}
 
 .tutorial-pagination ul {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 2rem;
   list-style: none;
-  padding: 1.5rem 0 0;
-  margin-top: 2rem;
-  border-top: 1px solid var(--prata);
+  margin: 0;
+  padding: 0;
+}
+
+.tutorial-pagination li {
+  margin: 0;
+}
+
+.tutorial-pagination a {
+  font-weight: 700;
 }
 
 .tutorial-pagination-next {
   margin-left: auto;
   text-align: right;
+}
+
+/* As setas são decorativas: o texto alternativo vazio impede que sejam lidas */
+.tutorial-pagination-previous a::before {
+  content: "← ";
+  content: "← " / "";
+}
+
+.tutorial-pagination-next a::after {
+  content: " →";
+  content: " →" / "";
+}
+
+@media (max-width: 800px) {
+  .tutorial-pagination ul {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .tutorial-pagination-next {
+    margin-left: 0;
+    text-align: left;
+  }
 }
 
 /* Modo escuro */
@@ -218,4 +253,178 @@
 
 .tutoriais-lista h3 {
   margin-top: 2rem;
+}
+
+/* Tipografia do conteúdo dos tutoriais (issue #19), próxima da do Lab */
+
+.tutorial-content p,
+.tutorial-content li {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.tutorial-title,
+.tutorial-content h2,
+.tutorial-content h3,
+.tutorial-content h4 {
+  color: var(--primary);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.tutorial-content h2 {
+  margin: 2.5rem 0 1rem;
+}
+
+.tutorial-content h3 {
+  margin: 2rem 0 0.75rem;
+}
+
+.tutorial-content h4 {
+  margin: 1.5rem 0 0.5rem;
+}
+
+.tutorial-content > :first-child {
+  margin-top: 0;
+}
+
+.tutorial-content hr {
+  margin: 2.5rem 0;
+}
+
+.tutorial-content code,
+.tutorial-content kbd {
+  padding: 0.1em 0.3em;
+  border-radius: 0.2em;
+  background-color: #f5f5f5;
+  color: inherit;
+  font-size: 0.9em;
+}
+
+.tutorial-content kbd {
+  border: 1px solid var(--prata);
+  box-shadow: none;
+}
+
+.tutorial-content pre {
+  padding: 1rem 1.25rem;
+  margin: 0 0 1.5rem;
+  border: 1px solid var(--prata);
+  border-radius: 0.25rem;
+  background-color: #f5f5f5;
+  color: #202629;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  overflow-x: auto;
+}
+
+.tutorial-content pre code {
+  padding: 0;
+  background: none;
+  font-size: inherit;
+  white-space: pre;
+}
+
+.tutorial-content pre:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Código colorido (Prism, js/prism.min.js). Cores com contraste AA sobre o fundo. */
+
+.tutorial-content .token.comment,
+.tutorial-content .token.prolog,
+.tutorial-content .token.doctype,
+.tutorial-content .token.cdata {
+  color: #595959;
+  font-style: italic;
+}
+
+.tutorial-content .token.punctuation {
+  color: #555555;
+}
+
+.tutorial-content .token.tag,
+.tutorial-content .token.selector,
+.tutorial-content .token.function {
+  color: #333399;
+}
+
+.tutorial-content .token.attr-name,
+.tutorial-content .token.property {
+  color: #8a4b00;
+}
+
+.tutorial-content .token.attr-value,
+.tutorial-content .token.string {
+  color: #087f23;
+}
+
+.tutorial-content .token.keyword,
+.tutorial-content .token.atrule,
+.tutorial-content .token.important {
+  color: #b00020;
+}
+
+.tutorial-content .token.number,
+.tutorial-content .token.boolean,
+.tutorial-content .token.entity {
+  color: #0066cc;
+}
+
+.dark-theme .tutorial-title,
+.dark-theme .tutorial-content h2,
+.dark-theme .tutorial-content h3,
+.dark-theme .tutorial-content h4 {
+  color: var(--quinary);
+}
+
+.dark-theme .tutorial-content code,
+.dark-theme .tutorial-content kbd,
+.dark-theme .tutorial-content pre {
+  background-color: var(--body-dark);
+  color: #ebf2f6;
+}
+
+.dark-theme .tutorial-content pre:focus-visible {
+  outline-color: var(--quinary);
+}
+
+.dark-theme .tutorial-content .token.comment,
+.dark-theme .tutorial-content .token.prolog,
+.dark-theme .tutorial-content .token.doctype,
+.dark-theme .tutorial-content .token.cdata {
+  color: #a8b0bd;
+}
+
+.dark-theme .tutorial-content .token.punctuation {
+  color: #c8ced6;
+}
+
+.dark-theme .tutorial-content .token.tag,
+.dark-theme .tutorial-content .token.selector,
+.dark-theme .tutorial-content .token.function {
+  color: #b6dcf6;
+}
+
+.dark-theme .tutorial-content .token.attr-name,
+.dark-theme .tutorial-content .token.property {
+  color: #f5c78e;
+}
+
+.dark-theme .tutorial-content .token.attr-value,
+.dark-theme .tutorial-content .token.string {
+  color: #b1e4b2;
+}
+
+.dark-theme .tutorial-content .token.keyword,
+.dark-theme .tutorial-content .token.atrule,
+.dark-theme .tutorial-content .token.important {
+  color: #ffadb8;
+}
+
+.dark-theme .tutorial-content .token.number,
+.dark-theme .tutorial-content .token.boolean,
+.dark-theme .tutorial-content .token.entity {
+  color: #9cc9ff;
 }
