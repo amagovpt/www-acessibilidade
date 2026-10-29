@@ -1,10 +1,21 @@
 <?php
 // Conteúdo para a issue #7: a política de privacidade passa a ser a da ARTE e sai a página "Termos e Condições".
-// Uso: php scripts/politica-privacidade-arte.php /caminho/para/wordpress [--aplicar]
+// Uso, a partir da pasta do WordPress ou indicando-a:
+//   php politica-privacidade-arte.php [/caminho/para/wordpress] [--aplicar]
+//   wp eval-file politica-privacidade-arte.php [--aplicar]   (WP-CLI)
 // Sem --aplicar só mostra o que mudaria. Pode ser corrido mais do que uma vez.
-require rtrim($argv[1] ?? '', '/') . '/wp-load.php';
+if (!defined('ABSPATH')) {
+    $opcoes = array_values(array_filter(array_slice($argv, 1), static fn(string $a): bool => $a !== '--aplicar'));
+    $pasta  = rtrim($opcoes[0] ?? getcwd(), '/');
+    if (!is_file($pasta . '/wp-load.php')) {
+        fwrite(STDERR, "Não encontrei o WordPress em \"$pasta\". Corra o script na pasta do WordPress ou indique-a como argumento.\n");
+        exit(1);
+    }
+    require $pasta . '/wp-load.php';
+}
 
-$aplicar = in_array('--aplicar', $argv, true);
+// Com o WP-CLI (wp eval-file) os argumentos chegam em $args.
+$aplicar = in_array('--aplicar', $args ?? $argv ?? [], true);
 $arte    = 'https://www.arte.gov.pt/politica-de-privacidade/';
 $log     = static fn(string $m) => print(($aplicar ? '' : '[simulação] ') . $m . "\n");
 
