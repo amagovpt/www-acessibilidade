@@ -627,18 +627,21 @@ add_filter('nav_menu_link_attributes', 'ama_tutoriais_menu_link_attributes', 10,
  */
 function ama_tutorial_enqueue(): void
 {
-    $theme_version = wp_get_theme()->get('Version');
-
-    if (is_page() && ama_tutoriais_root_id() && get_queried_object_id() === ama_tutoriais_root_id()) {
-        wp_enqueue_style('ama-tutoriais', get_stylesheet_directory_uri() . '/css/tutoriais.css', ['parent-style'], $theme_version);
+    $is_root = is_page() && ama_tutoriais_root_id() && get_queried_object_id() === ama_tutoriais_root_id();
+    if (!$is_root && (!is_page() || !ama_tutorial_id((int) get_queried_object_id()))) {
         return;
     }
 
-    if (!is_page() || !ama_tutorial_id((int) get_queried_object_id())) {
+    // Versão pela data do ficheiro, para os browsers não ficarem com a versão antiga em cache.
+    $version = static fn(string $file): string => (string) filemtime(get_stylesheet_directory() . $file);
+
+    wp_enqueue_style('ama-tutoriais', get_stylesheet_directory_uri() . '/css/tutoriais.css', ['parent-style'], $version('/css/tutoriais.css'));
+    if ($is_root) {
         return;
     }
 
-    wp_enqueue_style('ama-tutoriais', get_stylesheet_directory_uri() . '/css/tutoriais.css', ['parent-style'], $theme_version);
-    wp_enqueue_script('ama-tutoriais', get_stylesheet_directory_uri() . '/js/tutoriais.js', [], $theme_version, ['in_footer' => true, 'strategy' => 'defer']);
+    wp_enqueue_script('ama-prism', get_stylesheet_directory_uri() . '/js/prism.min.js', [], '1.29.0', ['in_footer' => true, 'strategy' => 'defer']);
+    wp_add_inline_script('ama-prism', 'window.Prism = { manual: true };', 'before');
+    wp_enqueue_script('ama-tutoriais', get_stylesheet_directory_uri() . '/js/tutoriais.js', ['ama-prism'], $version('/js/tutoriais.js'), ['in_footer' => true, 'strategy' => 'defer']);
 }
 add_action('wp_enqueue_scripts', 'ama_tutorial_enqueue', 12);
