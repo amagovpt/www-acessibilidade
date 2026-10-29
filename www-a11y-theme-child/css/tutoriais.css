@@ -141,22 +141,57 @@
   text-decoration: underline;
 }
 
-/* Página anterior / seguinte */
+/* Página anterior / seguinte (como no Lab) */
+
+.tutorial-pagination {
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid var(--secondary);
+}
 
 .tutorial-pagination ul {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 2rem;
   list-style: none;
-  padding: 1.5rem 0 0;
-  margin-top: 2rem;
-  border-top: 1px solid var(--prata);
+  margin: 0;
+  padding: 0;
+}
+
+.tutorial-pagination li {
+  margin: 0;
+}
+
+.tutorial-pagination a {
+  font-weight: 700;
 }
 
 .tutorial-pagination-next {
   margin-left: auto;
   text-align: right;
+}
+
+/* As setas são decorativas: o texto alternativo vazio impede que sejam lidas */
+.tutorial-pagination-previous a::before {
+  content: "← ";
+  content: "← " / "";
+}
+
+.tutorial-pagination-next a::after {
+  content: " →";
+  content: " →" / "";
+}
+
+@media (max-width: 800px) {
+  .tutorial-pagination ul {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .tutorial-pagination-next {
+    margin-left: 0;
+    text-align: left;
+  }
 }
 
 /* Modo escuro */
