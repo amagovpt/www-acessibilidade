@@ -378,34 +378,195 @@ function ama_tutorial_intro(int $tutorial_id): string
 }
 
 /**
- * [ama_tutoriais titulo="Tutoriais disponíveis"]: lista os tutoriais (filhas diretas de "Tutoriais").
+ * Tutoriais publicados para a página agregadora (issue #18): os tutoriais em páginas
+ * (filhas diretas de "Tutoriais") e os tutoriais antigos (tipo de conteúdo "tutorial"),
+ * enquanto não forem migrados. Cada item: id, título, ligação, categoria
+ * (taxonomia "categoria_tutorial"), destaque, ícone e data.
  */
-function ama_tutoriais_shortcode($atts): string
+function ama_tutoriais_items(): array
 {
-    $atts    = shortcode_atts(['titulo' => 'Tutoriais disponíveis'], $atts, 'ama_tutoriais');
     $root_id = ama_tutoriais_root_id();
-    if (!$root_id) {
-        return '';
-    }
-
-    $tutorials = get_pages([
+    $posts   = $root_id ? get_pages([
         'parent'      => $root_id,
         'post_status' => 'publish',
-        'sort_column' => 'menu_order,post_title',
-    ]);
-    if (!$tutorials) {
+    ]) : [];
+
+    if (post_type_exists('tutorial')) {
+        $posts = array_merge($posts, get_posts([
+            'post_type'      => 'tutorial',
+            'post_status'    => 'publish',
+            'posts_per_page' => -1,
+        ]));
+    }
+
+    $items = [];
+    foreach ($posts as $post) {
+        $is_page = $post->post_type === 'page';
+        $terms   = taxonomy_exists('categoria_tutorial') ? get_the_terms($post, 'categoria_tutorial') : false;
+
+        // Ícone do cartão: imagem de destaque da página; nos antigos, o campo "icon" do Pods.
+        $icon_id = $is_page ? (int) get_post_thumbnail_id($post) : (int) get_post_meta($post->ID, 'icon', true);
+        $icon    = $icon_id ? wp_get_attachment_image($icon_id, 'medium', false, ['class' => 'icon_card', 'alt' => '', 'aria-hidden' => 'true']) : '';
+
+        $items[] = [
+            'id'       => $post->ID,
+            'title'    => get_the_title($post),
+            'url'      => get_permalink($post),
+            'category' => is_array($terms) && $terms ? $terms[0] : null,
+            'destaque' => (string) get_post_meta($post->ID, $is_page ? 'ama_tutorial_destaque' : 'destaque', true) === '1',
+            'icon'     => $icon ?: '<div aria-hidden="true" class="icon-xl-forms"></div>',
+            'date'     => $post->post_date_gmt,
+        ];
+    }
+
+    usort($items, static fn(array $a, array $b): int => strcasecmp(remove_accents($a['title']), remove_accents($b['title'])));
+
+    return $items;
+}
+
+/**
+ * Lista de tutoriais com seta (classe "ama-list"), em duas colunas.
+ */
+function ama_tutoriais_list(array $items, bool $with_category): string
+{
+    $html = '';
+    foreach ($items as $item) {
+        $html .= sprintf(
+            '<li><a href="%s">%s</a>%s</li>',
+            esc_url($item['url']),
+            esc_html($item['title']),
+            $with_category && $item['category'] ? '<span class="d-block small">' . esc_html($item['category']->name) . '</span>' : ''
+        );
+    }
+
+    return '<ul class="colunas-1 colunas-md-2 ama-list">' . $html . '</ul>';
+}
+
+/**
+ * [ama_tutoriais]: página agregadora dos tutoriais, com o layout da página antiga.
+ *
+ * - 3 cartões "em destaque": os marcados como destaque e, a seguir, os mais recentes;
+ * - todos os tutoriais por ordem alfabética, com a categoria por baixo do título;
+ * - acima de 30 tutoriais (filtro "ama_tutoriais_limite_categorias"), a lista passa
+ *   a estar agrupada por categoria.
+ */
+function ama_tutoriais_shortcode(): string
+{
+    $items = ama_tutoriais_items();
+    if (!$items) {
         return '';
     }
 
-    $html = $atts['titulo'] !== '' ? '<h2>' . esc_html($atts['titulo']) . '</h2>' : '';
-    $html .= '<ul class="tutorial-list">';
-    foreach ($tutorials as $tutorial) {
-        $html .= sprintf('<li><a href="%s">%s</a></li>', esc_url(get_permalink($tutorial)), esc_html(get_the_title($tutorial)));
+    $highlights = $items;
+    usort($highlights, static fn(array $a, array $b): int => [$b['destaque'], $b['date']] <=> [$a['destaque'], $a['date']]);
+
+    $cards = '';
+    foreach (array_slice($highlights, 0, 3) as $item) {
+        $cards .= sprintf(
+            '<li class="card-highlight"><div class="card-body row"><div class="col-12">%s<h3 class="card-title"><a href="%s">%s</a></h3></div></div>'
+            . '<div class="card-footer"><div class="icons_tutorials">%s</div></div></li>',
+            $item['category'] ? '<p class="card-text">' . esc_html($item['category']->name) . '</p>' : '',
+            esc_url($item['url']),
+            esc_html($item['title']),
+            $item['icon']
+        );
     }
 
-    return $html . '</ul>';
+    $html = '<section class="tutoriais-destaque"><h2 class="visually-hidden">Tutoriais em destaque</h2>'
+        . '<ul class="grid grid-md-3 gap-30">' . $cards . '</ul></section>'
+        . '<section class="tutoriais-lista mt-5"><h2 class="visually-hidden">Todos os tutoriais</h2>';
+
+    if (count($items) <= (int) apply_filters('ama_tutoriais_limite_categorias', 30)) {
+        return $html . ama_tutoriais_list($items, true) . '</section>';
+    }
+
+    $groups = [];
+    $others = [];
+    foreach ($items as $item) {
+        if ($item['category']) {
+            $groups[$item['category']->name][] = $item;
+        } else {
+            $others[] = $item;
+        }
+    }
+    uksort($groups, static fn(string $a, string $b): int => strcasecmp(remove_accents($a), remove_accents($b)));
+    if ($others) {
+        $groups['Outros tutoriais'] = $others;
+    }
+
+    foreach ($groups as $name => $group) {
+        $html .= '<h3>' . esc_html($name) . '</h3>' . ama_tutoriais_list($group, false);
+    }
+
+    return $html . '</section>';
 }
 add_shortcode('ama_tutoriais', 'ama_tutoriais_shortcode');
+
+/**
+ * As páginas dos tutoriais também usam a taxonomia "categoria_tutorial" (criada no Pods
+ * para os tutoriais antigos).
+ */
+function ama_tutoriais_register_taxonomy(): void
+{
+    if (taxonomy_exists('categoria_tutorial')) {
+        register_taxonomy_for_object_type('categoria_tutorial', 'page');
+    }
+}
+add_action('init', 'ama_tutoriais_register_taxonomy', 99);
+
+/**
+ * Caixa "Tutorial" no editor das páginas que são tutoriais (filhas diretas de
+ * "Tutoriais"): categoria e destaque na página agregadora.
+ */
+function ama_tutoriais_add_meta_box(WP_Post $post): void
+{
+    if (!ama_tutoriais_root_id() || (int) $post->post_parent !== ama_tutoriais_root_id() || !taxonomy_exists('categoria_tutorial')) {
+        return;
+    }
+
+    add_meta_box('ama-tutorial', 'Tutorial', 'ama_tutoriais_meta_box', 'page', 'side');
+}
+add_action('add_meta_boxes_page', 'ama_tutoriais_add_meta_box');
+
+function ama_tutoriais_meta_box(WP_Post $post): void
+{
+    $terms = get_the_terms($post, 'categoria_tutorial');
+
+    wp_nonce_field('ama_tutorial_meta', 'ama_tutorial_nonce');
+    echo '<p><label for="ama-tutorial-categoria">Categoria</label><br>';
+    wp_dropdown_categories([
+        'taxonomy'         => 'categoria_tutorial',
+        'name'             => 'ama_tutorial_categoria',
+        'id'               => 'ama-tutorial-categoria',
+        'hide_empty'       => false,
+        'show_option_none' => 'Sem categoria',
+        'selected'         => is_array($terms) && $terms ? $terms[0]->term_id : -1,
+    ]);
+    echo '</p>';
+    printf(
+        '<p><label><input type="checkbox" name="ama_tutorial_destaque" value="1"%s> Destacar na página Tutoriais</label></p>',
+        checked(get_post_meta($post->ID, 'ama_tutorial_destaque', true), '1', false)
+    );
+    echo '<p class="description">O ícone do cartão é a imagem de destaque da página.</p>';
+}
+
+function ama_tutoriais_save_meta_box(int $post_id): void
+{
+    if (!isset($_POST['ama_tutorial_nonce']) || !wp_verify_nonce(sanitize_key($_POST['ama_tutorial_nonce']), 'ama_tutorial_meta')
+        || (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || !current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    $term_id = isset($_POST['ama_tutorial_categoria']) ? (int) $_POST['ama_tutorial_categoria'] : 0;
+    wp_set_object_terms($post_id, $term_id > 0 ? [$term_id] : [], 'categoria_tutorial');
+
+    if (!empty($_POST['ama_tutorial_destaque'])) {
+        update_post_meta($post_id, 'ama_tutorial_destaque', '1');
+    } else {
+        delete_post_meta($post_id, 'ama_tutorial_destaque');
+    }
+}
+add_action('save_post_page', 'ama_tutoriais_save_meta_box');
 
 /**
  * As páginas dentro de "Tutoriais" usam o template dos tutoriais.
@@ -462,15 +623,20 @@ function ama_tutoriais_menu_link_attributes(array $atts, $item): array
 add_filter('nav_menu_link_attributes', 'ama_tutoriais_menu_link_attributes', 10, 2);
 
 /**
- * Estilos e script só nas páginas dos tutoriais.
+ * Estilos e script só nas páginas dos tutoriais e na página agregadora "Tutoriais".
  */
 function ama_tutorial_enqueue(): void
 {
-    if (!is_page() || !ama_tutorial_id((int) get_queried_object_id())) {
+    $theme_version = wp_get_theme()->get('Version');
+
+    if (is_page() && ama_tutoriais_root_id() && get_queried_object_id() === ama_tutoriais_root_id()) {
+        wp_enqueue_style('ama-tutoriais', get_stylesheet_directory_uri() . '/css/tutoriais.css', ['parent-style'], $theme_version);
         return;
     }
 
-    $theme_version = wp_get_theme()->get('Version');
+    if (!is_page() || !ama_tutorial_id((int) get_queried_object_id())) {
+        return;
+    }
 
     wp_enqueue_style('ama-tutoriais', get_stylesheet_directory_uri() . '/css/tutoriais.css', ['parent-style'], $theme_version);
     wp_enqueue_script('ama-tutoriais', get_stylesheet_directory_uri() . '/js/tutoriais.js', [], $theme_version, ['in_footer' => true, 'strategy' => 'defer']);

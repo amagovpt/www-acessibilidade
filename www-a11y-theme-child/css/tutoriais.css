@@ -203,3 +203,19 @@
     border-bottom: 1px solid var(--prata);
   }
 }
+
+/* Página agregadora "Tutoriais" ([ama_tutoriais]) */
+
+@media (min-width: 992px) {
+  #page-wrapper .page-content:has(.tutoriais-destaque) {
+    width: 100%;
+  }
+}
+
+.tutoriais-lista .ama-list > li {
+  break-inside: avoid;
+}
+
+.tutoriais-lista h3 {
+  margin-top: 2rem;
+}
