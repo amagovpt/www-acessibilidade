@@ -34,7 +34,30 @@ $is_intro    = $current_id === $tutorial_id;
                 <div class="tutorial-layout<?= $is_intro ? ' tutorial-layout--intro' : ''; ?>">
                     <?= ama_tutorial_nav( $tutorial_id, $current_id ); ?>
 
-                    <h1 class="tutorial-title"><?php the_title(); ?></h1>
+                    <div class="tutorial-header">
+                        <div class="tutorial-header-text">
+                            <h1 class="tutorial-title"><?php the_title(); ?></h1>
+                            <?php
+                            // A mesma ordem do page.php: descrição da página e, se não houver, o excerto.
+                            if ( get_field( 'descricao_pagina' ) ) :
+                                echo get_field( 'descricao_pagina' );
+                            elseif ( has_excerpt() ) :
+                                the_excerpt();
+                            endif;
+                            ?>
+                        </div>
+                        <?php if ( has_post_thumbnail() || get_field( 'ama_icon_destaque' ) ) : ?>
+                            <div class="d-none d-lg-flex featured-image">
+                                <?php
+                                if ( has_post_thumbnail() ) {
+                                    the_post_thumbnail();
+                                } else {
+                                    echo get_field( 'ama_icon_destaque' );
+                                }
+                                ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
 
                     <?= $is_intro ? '' : ama_tutorial_toc( $current_id ); ?>
 
