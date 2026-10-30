@@ -1,0 +1,30 @@
+/* Página agregadora "Publicações" ([ama_publicacoes], inc/publicacoes.php) */
+
+@media (min-width: 992px) {
+  #page-wrapper .page-content:has(.publicacoes-destaque) {
+    width: 100%;
+  }
+}
+
+.publicacoes-categoria {
+  margin-top: 2.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--prata);
+}
+
+.publicacoes-destaque + .publicacoes-categoria {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.publicacoes-categoria > p {
+  max-width: 40rem;
+}
+
+.publicacoes-categoria .ama-list > li {
+  break-inside: avoid;
+}
+
+.publicacoes-categoria .ama-list > li > a {
+  font-weight: 700;
+}
