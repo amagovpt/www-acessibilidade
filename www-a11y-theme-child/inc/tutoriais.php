@@ -381,7 +381,7 @@ function ama_tutorial_intro(int $tutorial_id): string
  * Tutoriais publicados para a página agregadora (issue #18): os tutoriais em páginas
  * (filhas diretas de "Tutoriais") e os tutoriais antigos (tipo de conteúdo "tutorial"),
  * enquanto não forem migrados. Cada item: id, título, ligação, categoria
- * (taxonomia "categoria_tutorial"), destaque, ícone e data.
+ * (taxonomia "categoria_tutorial"), descrição, destaque, ícone e data.
  */
 function ama_tutoriais_items(): array
 {
@@ -404,18 +404,21 @@ function ama_tutoriais_items(): array
         $is_page = $post->post_type === 'page';
         $terms   = taxonomy_exists('categoria_tutorial') ? get_the_terms($post, 'categoria_tutorial') : false;
 
-        // Ícone do cartão: imagem de destaque da página; nos antigos, o campo "icon" do Pods.
+        // Ícone do cartão: imagem de destaque da página (nos antigos, o campo "icon" do Pods)
+        // ou, se não houver, o campo "Icon de destaque" do ACF.
         $icon_id = $is_page ? (int) get_post_thumbnail_id($post) : (int) get_post_meta($post->ID, 'icon', true);
         $icon    = $icon_id ? wp_get_attachment_image($icon_id, 'medium', false, ['class' => 'icon_card', 'alt' => '', 'aria-hidden' => 'true']) : '';
+        $icon    = $icon ?: (string) get_field('ama_icon_destaque', $post->ID);
 
         $items[] = [
-            'id'       => $post->ID,
-            'title'    => get_the_title($post),
-            'url'      => get_permalink($post),
-            'category' => is_array($terms) && $terms ? $terms[0] : null,
-            'destaque' => (string) get_post_meta($post->ID, $is_page ? 'ama_tutorial_destaque' : 'destaque', true) === '1',
-            'icon'     => $icon ?: '<div aria-hidden="true" class="icon-xl-forms"></div>',
-            'date'     => $post->post_date_gmt,
+            'id'          => $post->ID,
+            'title'       => get_the_title($post),
+            'url'         => get_permalink($post),
+            'category'    => is_array($terms) && $terms ? $terms[0] : null,
+            'description' => $is_page && has_excerpt($post) ? get_the_excerpt($post) : '',
+            'destaque'    => (string) get_post_meta($post->ID, $is_page ? 'ama_tutorial_destaque' : 'destaque', true) === '1',
+            'icon'        => $icon ?: '<div aria-hidden="true" class="icon-xl-forms"></div>',
+            'date'        => $post->post_date_gmt,
         ];
     }
 
@@ -432,10 +435,11 @@ function ama_tutoriais_list(array $items, bool $with_category): string
     $html = '';
     foreach ($items as $item) {
         $html .= sprintf(
-            '<li><a href="%s">%s</a>%s</li>',
+            '<li><a href="%s">%s</a>%s%s</li>',
             esc_url($item['url']),
             esc_html($item['title']),
-            $with_category && $item['category'] ? '<span class="d-block small">' . esc_html($item['category']->name) . '</span>' : ''
+            $with_category && $item['category'] ? '<span class="d-block small">' . esc_html($item['category']->name) . '</span>' : '',
+            $item['description'] !== '' ? '<span class="d-block small">' . esc_html($item['description']) . '</span>' : ''
         );
     }
 
@@ -446,7 +450,7 @@ function ama_tutoriais_list(array $items, bool $with_category): string
  * [ama_tutoriais]: página agregadora dos tutoriais, com o layout da página antiga.
  *
  * - 3 cartões "em destaque": os marcados como destaque e, a seguir, os mais recentes;
- * - todos os tutoriais por ordem alfabética, com a categoria por baixo do título;
+ * - todos os tutoriais por ordem alfabética, com a categoria e o excerto por baixo do título;
  * - acima de 30 tutoriais (filtro "ama_tutoriais_limite_categorias"), a lista passa
  *   a estar agrupada por categoria.
  */
@@ -516,11 +520,15 @@ add_action('init', 'ama_tutoriais_register_taxonomy', 99);
 
 /**
  * Caixa "Tutorial" no editor das páginas que são tutoriais (filhas diretas de
- * "Tutoriais"): categoria e destaque na página agregadora.
+ * "Tutoriais"): categoria e destaque na página agregadora. Numa página nova a mãe ainda
+ * não está gravada, por isso a caixa aparece sempre e só conta ao gravar (ver abaixo).
  */
 function ama_tutoriais_add_meta_box(WP_Post $post): void
 {
-    if (!ama_tutoriais_root_id() || (int) $post->post_parent !== ama_tutoriais_root_id() || !taxonomy_exists('categoria_tutorial')) {
+    if (!ama_tutoriais_root_id() || !taxonomy_exists('categoria_tutorial')) {
+        return;
+    }
+    if ((int) $post->post_parent !== ama_tutoriais_root_id() && $post->post_status !== 'auto-draft') {
         return;
     }
 
@@ -547,13 +555,14 @@ function ama_tutoriais_meta_box(WP_Post $post): void
         '<p><label><input type="checkbox" name="ama_tutorial_destaque" value="1"%s> Destacar na página Tutoriais</label></p>',
         checked(get_post_meta($post->ID, 'ama_tutorial_destaque', true), '1', false)
     );
-    echo '<p class="description">O ícone do cartão é a imagem de destaque da página.</p>';
+    echo '<p class="description">O ícone do cartão é a imagem de destaque ou, se não houver, o campo "Icon de destaque". Só se aplica às páginas diretamente abaixo de Tutoriais.</p>';
 }
 
 function ama_tutoriais_save_meta_box(int $post_id): void
 {
     if (!isset($_POST['ama_tutorial_nonce']) || !wp_verify_nonce(sanitize_key($_POST['ama_tutorial_nonce']), 'ama_tutorial_meta')
-        || (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || !current_user_can('edit_post', $post_id)) {
+        || (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || !current_user_can('edit_post', $post_id)
+        || (int) wp_get_post_parent_id($post_id) !== ama_tutoriais_root_id()) {
         return;
     }
 

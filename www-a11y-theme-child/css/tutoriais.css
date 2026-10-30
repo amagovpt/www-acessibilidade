@@ -65,11 +65,32 @@
 
 /* Título */
 
-.tutorial-title {
+.tutorial-header {
   grid-column: 2;
   grid-row: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
   padding-bottom: 1.5rem;
   border-bottom: 3px solid var(--secondary);
+}
+
+.tutorial-header-text {
+  min-width: 0;
+}
+
+.tutorial-header-text > :last-child {
+  margin-bottom: 0;
+}
+
+.tutorial-header .featured-image {
+  flex: 0 0 10rem;
+  justify-content: flex-end;
+}
+
+.tutorial-header .featured-image img {
+  width: 100%;
+  height: auto;
 }
 
 /* Links de acesso rápido: fechados no fluxo central; abertos, na coluna da direita */
@@ -249,6 +270,12 @@
 
 .tutoriais-lista .ama-list > li {
   break-inside: avoid;
+}
+
+/* Ícone escrito no campo "Icon de destaque" */
+
+.icons_tutorials [class^="icon"]::before {
+  font-size: 72px;
 }
 
 .tutoriais-lista h3 {
