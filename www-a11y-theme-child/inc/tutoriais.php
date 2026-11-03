@@ -678,3 +678,49 @@ function ama_tutorial_enqueue(): void
     wp_enqueue_script('ama-tutoriais', get_stylesheet_directory_uri() . '/js/tutoriais.js', ['ama-prism'], $version('/js/tutoriais.js'), ['in_footer' => true, 'strategy' => 'defer']);
 }
 add_action('wp_enqueue_scripts', 'ama_tutorial_enqueue', 12);
+
+/**
+ * Edição Rápida das páginas: as categorias de Tutoriais e Publicações passam para o fim,
+ * depois de "Estado", a toda a largura (o WordPress põe-nas numa coluna ao meio sem
+ * largura definida para páginas, o que desarruma os outros campos).
+ */
+function ama_edicao_rapida_categorias_no_fim(): void
+{
+    $screen = get_current_screen();
+    if (!$screen || $screen->base !== 'edit' || $screen->post_type !== 'page') {
+        return;
+    }
+    ?>
+    <style>
+        #wpbody-content #inline-edit .inline-edit-col-center.ama-categorias-no-fim {
+            float: none;
+            clear: both;
+            width: 100%;
+            padding-top: 1em;
+        }
+        /* Uma coluna por taxonomia, lado a lado. */
+        #wpbody-content #inline-edit .ama-categorias-no-fim .inline-edit-col {
+            display: grid;
+            grid-template-rows: auto auto;
+            grid-auto-flow: column;
+            grid-auto-columns: minmax(0, 1fr);
+            column-gap: 2em;
+        }
+    </style>
+    <script>
+    (function () {
+        var linha = document.getElementById('inline-edit');
+        if (!linha) {
+            return;
+        }
+        var categorias = linha.querySelector('.inline-edit-col-center.inline-edit-categories');
+        var direita = linha.querySelector('.inline-edit-col-right');
+        if (categorias && direita) {
+            categorias.classList.add('ama-categorias-no-fim');
+            direita.after(categorias);
+        }
+    })();
+    </script>
+    <?php
+}
+add_action('admin_footer-edit.php', 'ama_edicao_rapida_categorias_no_fim');

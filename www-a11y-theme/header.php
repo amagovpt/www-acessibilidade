@@ -10,7 +10,7 @@ defined('ABSPATH') || exit;
 	<meta charset="<?php bloginfo('charset'); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="profile" href="http://gmpg.org/xfn/11">
-	<link rel="icon" type="image/x-icon" href="<?= get_stylesheet_directory_uri() ?>/img/favicon.ico">
+	<link rel="icon" type="image/x-icon" href="<?= esc_url(get_template_directory_uri() . '/img/favicon.ico') ?>">
 	<?php
 
 	// Assistente virtual: só scripts de domínios autorizados (ver ama_ai_agent_markup() em functions.php)
