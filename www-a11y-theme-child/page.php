@@ -33,6 +33,12 @@ get_header();
                     </ol>
                 </nav>
                 <div class="row">
+                    <?php // Etiqueta "Publicações" nas fichas, como nas publicações antigas (issue #29). ?>
+                    <?php if ( function_exists( 'ama_is_ficha_publicacao' ) && ama_is_ficha_publicacao( get_the_ID() ) ) : ?>
+                    <div class="col-12 mb-3">
+                        <a href="<?php echo esc_url( get_permalink( ama_publicacoes_root_id() ) ); ?>" class="version">Publicações</a>
+                    </div>
+                    <?php endif; ?>
                     <div class="col-12 col-lg-8<?php echo has_excerpt() ? '' : ' align-self-end'; ?>">
                         <h1><?php the_title(); ?></h1>
                         <?php

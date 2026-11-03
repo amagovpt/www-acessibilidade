@@ -37,6 +37,10 @@ $is_intro    = $current_id === $tutorial_id;
 
                     <div class="tutorial-header">
                         <div class="tutorial-header-text">
+                            <?php // Etiqueta da secção, como nos tutoriais antigos (issue #29). ?>
+                            <div class="mb-3">
+                                <a href="<?= esc_url( get_permalink( ama_tutoriais_root_id() ) ); ?>" class="version">Tutoriais</a>
+                            </div>
                             <h1 class="tutorial-title"><?php the_title(); ?></h1>
                             <?php
                             // A mesma ordem do page.php: descrição da página e, se não houver, o excerto.
