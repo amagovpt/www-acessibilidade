@@ -3,7 +3,7 @@
 .tutorial-layout {
   display: grid;
   grid-template-columns: 14rem minmax(0, 1fr) 18rem;
-  grid-template-rows: auto auto 1fr;
+  grid-template-rows: auto 1fr;
   column-gap: 3rem;
   align-items: start;
   padding-bottom: 3rem;
@@ -13,7 +13,7 @@
 
 .tutorial-nav {
   grid-column: 1;
-  grid-row: 1 / span 3;
+  grid-row: 1 / span 2;
   position: sticky;
   top: 1rem;
 }
@@ -70,41 +70,13 @@
   list-style-type: square;
 }
 
-/* Título */
-
-.tutorial-header {
-  grid-column: 2;
-  grid-row: 1;
-  display: flex;
-  justify-content: space-between;
-  gap: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 3px solid var(--secondary);
-}
-
-.tutorial-header-text {
-  min-width: 0;
-}
-
-.tutorial-header-text > :last-child {
-  margin-bottom: 0;
-}
-
-.tutorial-header .featured-image {
-  flex: 0 0 10rem;
-  justify-content: flex-end;
-}
-
-.tutorial-header .featured-image img {
-  width: 100%;
-  height: auto;
-}
+/* O cabeçalho (título, descrição, ícone) é o .page-header--seccao de style.css, fora da grelha */
 
 /* Links de acesso rápido: fechados no fluxo central; abertos, na coluna da direita */
 
 .tutorial-toc {
   grid-column: 2;
-  grid-row: 2;
+  grid-row: 1;
   margin-bottom: 1.5rem;
 }
 
@@ -115,7 +87,7 @@
 
 .tutorial-layout:has(.tutorial-toc details[open]) > .tutorial-toc {
   grid-column: 3;
-  grid-row: 1 / span 3;
+  grid-row: 1 / span 2;
   position: sticky;
   top: 1rem;
 }
@@ -136,7 +108,7 @@
 
 .tutorial-content {
   grid-column: 2;
-  grid-row: 3;
+  grid-row: 2;
   min-width: 0;
 }
 
@@ -146,13 +118,9 @@
   grid-template-columns: minmax(0, 1fr);
 }
 
-.tutorial-layout--intro .tutorial-header,
 .tutorial-layout--intro .tutorial-content {
   grid-column: 1;
-}
-
-.tutorial-layout--intro .tutorial-content {
-  grid-row: 2 / span 2;
+  grid-row: 1 / span 2;
   max-width: 50rem;
 }
 
@@ -255,7 +223,7 @@
 
   .tutorial-layout:has(.tutorial-toc details[open]) > .tutorial-toc {
     grid-column: 2;
-    grid-row: 2;
+    grid-row: 1;
     position: static;
   }
 
@@ -320,7 +288,6 @@
   line-height: 1.6;
 }
 
-.tutorial-title,
 .tutorial-content h2,
 .tutorial-content h3,
 .tutorial-content h4 {
@@ -429,7 +396,6 @@
   color: #0066cc;
 }
 
-.dark-theme .tutorial-title,
 .dark-theme .tutorial-content h2,
 .dark-theme .tutorial-content h3,
 .dark-theme .tutorial-content h4 {

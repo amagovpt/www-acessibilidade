@@ -129,7 +129,8 @@ function ama_publicacao_secao_markup(array $secao): string
 }
 
 /**
- * Padrões do editor: a ficha completa (proposta ao criar uma página) e cada secção em separado.
+ * Padrões do editor: a ficha completa e cada secção em separado, no separador "Padrões" do inseridor.
+ * Sem 'blockTypes' => core/post-content, para o WordPress não abrir "Escolha um padrão" em todas as páginas novas.
  */
 function ama_publicacoes_register_patterns(): void
 {
@@ -141,7 +142,6 @@ function ama_publicacoes_register_patterns(): void
         'title'       => 'Ficha da publicação',
         'description' => 'Referência APA, formatos disponíveis, sumário executivo e índice, cada um numa secção com título H2.',
         'categories'  => ['ama-publicacoes'],
-        'blockTypes'  => ['core/post-content'],
         'postTypes'   => ['page'],
         'content'     => implode("\n\n", array_map('ama_publicacao_secao_markup', $secoes)),
     ]);
