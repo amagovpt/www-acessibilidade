@@ -580,6 +580,28 @@ function ama_tutoriais_save_meta_box(int $post_id): void
 add_action('save_post_page', 'ama_tutoriais_save_meta_box');
 
 /**
+ * Espaços não separáveis (&nbsp;) passam a espaços normais nos títulos dos tutoriais
+ * (issue #27). Aparecem quando o título é copiado de outro sítio e impedem-no de mudar
+ * de linha: o cartão em destaque esticava e o título do índice ficava por cima do H1.
+ * Só no site, porque no editor o título fica como foi escrito.
+ */
+function ama_titulo_sem_nbsp(string $title): string
+{
+    return str_replace(["\u{00A0}", '&nbsp;', '&#160;', '&#xA0;'], ' ', $title);
+}
+
+function ama_tutoriais_title(string $title, $post_id = 0): string
+{
+    $post_id = (int) $post_id;
+    if (is_admin() || !$post_id || !(get_post_type($post_id) === 'tutorial' || ama_tutorial_id($post_id))) {
+        return $title;
+    }
+
+    return ama_titulo_sem_nbsp($title);
+}
+add_filter('the_title', 'ama_tutoriais_title', 10, 2);
+
+/**
  * As páginas dentro de "Tutoriais" usam o template dos tutoriais.
  */
 function ama_tutorial_template(string $template): string

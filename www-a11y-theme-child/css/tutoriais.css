@@ -23,6 +23,13 @@
   margin-bottom: 1rem;
 }
 
+/* Um nome muito grande muda de linha em vez de passar por cima do título (issue #27) */
+.tutorial-nav,
+.tutorial-header-text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 .tutorial-nav ul,
 .tutorial-toc ul {
   padding-left: 1.25rem;
@@ -282,6 +289,17 @@
 
 .tutoriais-lista .ama-list > li {
   break-inside: avoid;
+}
+
+/* Cartões em destaque sempre com a mesma largura, mesmo com nomes grandes (issue #27) */
+@media (min-width: 768px) {
+  .tutoriais-destaque .grid-md-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.tutoriais-destaque .card-title {
+  overflow-wrap: anywhere;
 }
 
 /* Ícone escrito no campo "Icon de destaque" */
