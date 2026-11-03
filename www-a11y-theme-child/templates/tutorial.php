@@ -32,7 +32,8 @@ $is_intro    = $current_id === $tutorial_id;
 
             <?php while ( have_posts() ) : the_post(); ?>
                 <div class="tutorial-layout<?= $is_intro ? ' tutorial-layout--intro' : ''; ?>">
-                    <?= ama_tutorial_nav( $tutorial_id, $current_id ); ?>
+                    <?php // Na apresentação o índice das páginas já está no corpo ("Conteúdo do tutorial"), como no Lab (issue #30). ?>
+                    <?= $is_intro ? '' : ama_tutorial_nav( $tutorial_id, $current_id ); ?>
 
                     <div class="tutorial-header">
                         <div class="tutorial-header-text">

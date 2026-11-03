@@ -133,8 +133,20 @@
   min-width: 0;
 }
 
+/* Apresentação do tutorial: sem o índice das páginas à esquerda, numa só coluna (issue #30) */
+
+.tutorial-layout--intro {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.tutorial-layout--intro .tutorial-header,
+.tutorial-layout--intro .tutorial-content {
+  grid-column: 1;
+}
+
 .tutorial-layout--intro .tutorial-content {
   grid-row: 2 / span 2;
+  max-width: 50rem;
 }
 
 .tutorial-content [id] {
@@ -230,7 +242,7 @@
 /* Tablet: o índice dos títulos passa para o fluxo central */
 
 @media (max-width: 1199.98px) {
-  .tutorial-layout {
+  .tutorial-layout:not(.tutorial-layout--intro) {
     grid-template-columns: 14rem minmax(0, 1fr);
   }
 
