@@ -6,6 +6,17 @@
   }
 }
 
+/* Cartões em destaque sempre com a mesma largura, mesmo com nomes grandes (issue #27) */
+@media (min-width: 768px) {
+  .publicacoes-destaque .grid-md-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.publicacoes-destaque .card-title {
+  overflow-wrap: anywhere;
+}
+
 .publicacoes-categoria {
   margin-top: 2.5rem;
   padding-top: 2.5rem;

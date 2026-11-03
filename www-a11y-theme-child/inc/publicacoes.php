@@ -43,6 +43,21 @@ function ama_is_ficha_publicacao(int $post_id): bool
 }
 
 /**
+ * Espaços não separáveis nos títulos das fichas e das publicações antigas passam a
+ * espaços normais, como nos tutoriais (ama_titulo_sem_nbsp() em inc/tutoriais.php, issue #27).
+ */
+function ama_publicacoes_title(string $title, $post_id = 0): string
+{
+    $post_id = (int) $post_id;
+    if (is_admin() || !$post_id || !(get_post_type($post_id) === 'publicacoes' || ama_is_ficha_publicacao($post_id))) {
+        return $title;
+    }
+
+    return ama_titulo_sem_nbsp($title);
+}
+add_filter('the_title', 'ama_publicacoes_title', 10, 2);
+
+/**
  * Secções da ficha: título do <h2> e blocos de exemplo que vão dentro da secção.
  */
 function ama_publicacao_secoes(): array
