@@ -270,14 +270,16 @@ function ama_tutorial_nav(int $tutorial_id, int $current_id): string
 
 /**
  * Ligações "Página anterior" e "Próxima página", na ordem de leitura do tutorial
- * (apresentação, depois todas as páginas em profundidade).
+ * (todas as páginas em profundidade). Como no Lab, a apresentação fica de fora:
+ * a 1.ª página não tem "Página anterior" e a apresentação não tem esta barra,
+ * porque já tem "Começar o tutorial" (issue #31).
  */
 function ama_tutorial_pagination(int $tutorial_id, int $current_id): string
 {
-    $sequence = array_merge([$tutorial_id], array_map(
+    $sequence = array_map(
         static fn(array $item): int => $item['page']->ID,
         ama_tutorial_pages($tutorial_id)
-    ));
+    );
 
     $index = array_search($current_id, $sequence, true);
     if ($index === false) {
