@@ -558,3 +558,22 @@ function AMA_pagination_v2(WP_Query $query, int $current_page = 1): ?string
 
     return $html;
 }
+
+/* Layout tipo para a Ficha de Publicação     */
+/* CSS: /assets/css/ficha-layout.css          */
+
+function a11y_ficha_layout_styles() {
+
+    wp_enqueue_style(
+        'a11y-ficha-layout',
+        get_stylesheet_directory_uri() . '/assets/css/ficha-layout.css',
+        array(),
+        '1.0.0'
+    );
+
+}
+
+add_action(
+    'wp_enqueue_scripts',
+    'a11y_ficha_layout_styles'
+);

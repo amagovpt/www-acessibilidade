@@ -1,0 +1,51 @@
+
+/* ==========================================
+   Estrutura editorial - Ficha de Publicação
+   ========================================== */
+
+/* Contentor Grid do Gutenberg */
+
+.about_layout > .wp-block-group__inner-container {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: 2rem;
+    align-items: start;
+}
+
+/* Primeira coluna: introdução */
+
+.about_intro {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+/* Segunda coluna: informação complementar */
+
+.about_complementary {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+}
+
+/* Primeira coluna: restante conteúdo */
+
+.about_content {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+/* Ecrãs estreitos */
+
+@media (max-width: 991.98px) {
+
+    .about_layout > .wp-block-group__inner-container {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .about_intro,
+    .about_complementary,
+    .about_content {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+}
