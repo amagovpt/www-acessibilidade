@@ -29,7 +29,7 @@ function child_theme_enqueue_stylesheet(): void
         'www-a11y-theme-child-style',
         get_stylesheet_uri(),
         ['parent-style'],
-        '1.0.1',
+        (string) filemtime(get_stylesheet_directory() . '/style.css'),
     );
 
     wp_enqueue_style(

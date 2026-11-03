@@ -11,11 +11,16 @@ wp_enqueue_script(
 );
 
 get_header();
+
+// Páginas Tutoriais e Publicações e fichas de publicação: cabeçalho com os espaços do modelo original (style.css).
+$ama_seccao = ( function_exists( 'ama_tutoriais_root_id' ) && get_the_ID() === ama_tutoriais_root_id() )
+    || ( function_exists( 'ama_publicacoes_root_id' ) && get_the_ID() === ama_publicacoes_root_id() )
+    || ( function_exists( 'ama_is_ficha_publicacao' ) && ama_is_ficha_publicacao( get_the_ID() ) );
 ?>
 <main class="site-main" id="main">
     <div class="wrapper" id="page-wrapper">
         <div class="container" id="content" tabindex="-1">
-            <div class="page-header">
+            <div class="page-header<?php echo $ama_seccao ? ' page-header--seccao' : ''; ?>">
                 <nav aria-label="Você está aqui">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
@@ -35,7 +40,7 @@ get_header();
                 <div class="row">
                     <?php // Etiqueta "Publicações" nas fichas, como nas publicações antigas (issue #29). ?>
                     <?php if ( function_exists( 'ama_is_ficha_publicacao' ) && ama_is_ficha_publicacao( get_the_ID() ) ) : ?>
-                    <div class="col-12 mb-3">
+                    <div class="col-12 mb-3 page-header-label">
                         <a href="<?php echo esc_url( get_permalink( ama_publicacoes_root_id() ) ); ?>" class="version">Publicações</a>
                     </div>
                     <?php endif; ?>

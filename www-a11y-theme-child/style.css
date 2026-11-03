@@ -681,6 +681,50 @@ a.version:hover {
     color: #fff;
 }
 
+/* Cabeçalho das páginas Tutoriais e Publicações, das fichas e das páginas dos tutoriais:
+   os espaços do modelo original (breadcrumb, etiqueta, título, descrição e linha) */
+.page-header--seccao {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.page-header--seccao .breadcrumb {
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+}
+
+.page-header--seccao .page-header-label {
+    margin-bottom: 1rem !important;
+}
+
+.page-header--seccao h1 {
+    font-size: 2.625rem;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+}
+
+.page-header--seccao h1 + p,
+.page-header--seccao h1 ~ p {
+    font-size: 1.125rem;
+    line-height: 1.5;
+}
+
+.page-header--seccao .featured-image {
+    align-items: center;
+}
+
+@media (max-width: 767.98px) {
+    .page-header--seccao {
+        padding-top: 1rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .page-header--seccao h1 {
+        font-size: 2rem;
+    }
+}
+
 .featured-image [class^="icon"]::before {
     font-size: 130px !important;
 }
