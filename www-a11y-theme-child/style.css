@@ -681,6 +681,17 @@ a.version:hover {
     color: #fff;
 }
 
+/* Breadcrumb à mesma distância do cabeçalho em todas as páginas (issue #41): 40px do
+   #page-wrapper + 40px, como nas páginas Tutoriais e Publicações (.page-header--seccao,
+   que já tem esses 40px no padding e por isso fica de fora, ver abaixo). */
+.breadcrumb {
+    margin-top: 2.5rem;
+}
+
+.page-header--seccao .breadcrumb {
+    margin-top: 0;
+}
+
 /* Cabeçalho das páginas Tutoriais e Publicações, das fichas e das páginas dos tutoriais:
    os espaços do modelo original (breadcrumb, etiqueta, título, descrição e linha) */
 .page-header--seccao {
