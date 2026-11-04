@@ -935,3 +935,11 @@ a.version:hover {
     color: #fff;
     cursor: not-allowed;
 }
+
+/* Cabeçalho (issue #42): mais espaço entre o menu/botão "Pesquisar" e a linha de baixo,
+   no ecrã largo. 20px, como a barra do título logo acima (.widgets-bar). */
+@media (min-width: 992px) {
+    .navigation .container {
+        padding-bottom: 1.25rem;
+    }
+}
