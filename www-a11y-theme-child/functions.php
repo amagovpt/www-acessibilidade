@@ -577,3 +577,14 @@ add_action(
     'wp_enqueue_scripts',
     'a11y_ficha_layout_styles'
 );
+
+/**
+ * Permitir carregamento de ficheiros EPUB na Multimédia (issue #40), p. ex. para as
+ * fichas de publicação. O WordPress também verifica o conteúdo do ficheiro: um ficheiro
+ * de outro tipo com a extensão .epub (p. ex. texto ou HTML) continua a ser recusado.
+ */
+function a11y_allow_epub_uploads( $mimes ) {
+    $mimes['epub'] = 'application/epub+zip';
+    return $mimes;
+}
+add_filter( 'upload_mimes', 'a11y_allow_epub_uploads' );
