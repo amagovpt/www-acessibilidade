@@ -10,7 +10,10 @@ defined('ABSPATH') || exit;
 	<meta charset="<?php bloginfo('charset'); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="profile" href="http://gmpg.org/xfn/11">
-	<link rel="icon" type="image/x-icon" href="<?= esc_url(get_template_directory_uri() . '/img/favicon.ico') ?>">
+	<?php $favicon = get_stylesheet_directory_uri() . '/favicon/'; // "a" do acessibilidade.gov.pt (o img/favicon.ico do tema pai é o "S" do Selo) ?>
+	<link rel="icon" type="image/png" sizes="32x32" href="<?= esc_url($favicon . 'favicon-32x32.png') ?>">
+	<link rel="icon" type="image/png" sizes="16x16" href="<?= esc_url($favicon . 'favicon-16x16.png') ?>">
+	<link rel="apple-touch-icon" sizes="180x180" href="<?= esc_url($favicon . 'apple-icon-180x180.png') ?>">
 	<?php
 
 	// Assistente virtual: só scripts de domínios autorizados (ver ama_ai_agent_markup() em functions.php)
