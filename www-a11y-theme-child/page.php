@@ -91,8 +91,8 @@ $ama_seccao = ( function_exists( 'ama_tutoriais_root_id' ) && get_the_ID() === a
         </div>
     </div>
     <div class="container-fluid p-0">
-        <div class="row p-0">
-            <div class="col p-0">
+        <div class="row g-0">
+            <div class="col">
                 <?= do_shortcode('[accessmonitor_wide]'); ?>
             </div>
         </div>

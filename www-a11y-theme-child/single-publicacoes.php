@@ -92,7 +92,7 @@ get_header();
         </div>
     </div>
     <div class="container-fluid p-0">
-        <div class="row">
+        <div class="row g-0">
             <div class="col">
                 <?= do_shortcode('[accessmonitor_wide]'); ?>
             </div>

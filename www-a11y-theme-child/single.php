@@ -98,12 +98,6 @@ get_header();
                             <div class="sidebar p-4 p-lg-5">
                                 <h2>Relacionados</h2>
                                 <?php get_related_articles($categories_id, get_the_ID()) ?>
-                                <hr>
-                                <h2 class="h3">Em destaque</h2>
-                                <?php get_articles_highlights() ?>
-                                <hr>
-                                <h3 class="h5">Categorias</h3>
-                                <?= do_shortcode('[get_blogue_categories]'); ?>
                             </div>
                         </aside>
                     </div>
@@ -199,8 +193,8 @@ get_header();
         </div>
     </section>
     <div class="container-fluid p-0 mt-3">
-        <div class="row p-0">
-            <div class="col p-0">
+        <div class="row g-0">
+            <div class="col">
                 <?= do_shortcode('[accessmonitor_wide]'); ?>
             </div>
         </div>
