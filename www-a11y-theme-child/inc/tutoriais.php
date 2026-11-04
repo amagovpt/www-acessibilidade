@@ -522,21 +522,32 @@ add_action('init', 'ama_tutoriais_register_taxonomy', 99);
 
 /**
  * Caixa "Tutorial" no editor das páginas que são tutoriais (filhas diretas de
- * "Tutoriais"): categoria e destaque na página agregadora. Numa página nova a mãe ainda
- * não está gravada, por isso a caixa aparece sempre e só conta ao gravar (ver abaixo).
+ * "Tutoriais"): categoria e destaque na página agregadora. O editor de blocos não volta
+ * a carregar as caixas ao gravar, por isso numa página nova ou já dentro de Tutoriais ou
+ * Publicações as duas caixas são criadas e o script ama_caixas_por_pagina_mae() (em
+ * inc/publicacoes.php) mostra só a que corresponde à página-mãe escolhida. Só conta ao
+ * gravar se a mãe for mesmo "Tutoriais" (ver abaixo).
  */
 function ama_tutoriais_add_meta_box(WP_Post $post): void
 {
-    if (!ama_tutoriais_root_id() || !taxonomy_exists('categoria_tutorial')) {
-        return;
-    }
-    if ((int) $post->post_parent !== ama_tutoriais_root_id() && $post->post_status !== 'auto-draft') {
+    if (!ama_tutoriais_root_id() || !taxonomy_exists('categoria_tutorial') || !ama_pagina_pode_ter_caixas($post)) {
         return;
     }
 
     add_meta_box('ama-tutorial', 'Tutorial', 'ama_tutoriais_meta_box', 'page', 'side');
 }
 add_action('add_meta_boxes_page', 'ama_tutoriais_add_meta_box');
+
+/**
+ * Página nova ou filha direta de "Tutoriais" ou de "Publicações": recebe as caixas
+ * "Tutorial" e "Publicação" (o script do editor mostra a certa).
+ */
+function ama_pagina_pode_ter_caixas(WP_Post $post): bool
+{
+    $roots = array_filter([ama_tutoriais_root_id(), function_exists('ama_publicacoes_root_id') ? ama_publicacoes_root_id() : 0]);
+
+    return $post->post_status === 'auto-draft' || in_array((int) $post->post_parent, $roots, true);
+}
 
 function ama_tutoriais_meta_box(WP_Post $post): void
 {
