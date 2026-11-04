@@ -5,13 +5,12 @@ defined('ABSPATH') || exit;
  * Publicações em páginas do WordPress (issue #12).
  *
  * Publicações                    ← página raiz (slug "publicacoes"), lista as fichas com [ama_publicacoes]
- *   ├── Ficha da publicação A    ← página com secções livres, feita a partir do padrão "Ficha da publicação"
+ *   ├── Ficha da publicação A    ← página filha direta de "Publicações" (conteúdo livre, p. ex. com o padrão da ficha)
  *   └── Ficha da publicação N
  *
  * As fichas usam o page.php, por isso o breadcrumb é o das páginas (Início › Publicações › Ficha).
- * Não há campos por secção: o padrão "Ficha da publicação" cria as secções típicas, cada uma
- * com a estrutura <section><h2>…</h2> elementos livres </section>, e cada secção existe também
- * como padrão próprio para se poder voltar a inserir.
+ * O layout da ficha (padrão e assets/css/ficha-layout.css, PR #37) não é tratado aqui:
+ * este ficheiro não regista padrões nem altera o HTML dos blocos das fichas.
  *
  * Os formatos HTML das publicações (p. ex. os relatórios de monitorização) continuam a ser
  * feitos fora do WordPress, numa pasta do servidor; a ficha só tem a ligação para eles.
@@ -56,136 +55,6 @@ function ama_publicacoes_title(string $title, $post_id = 0): string
     return ama_titulo_sem_nbsp($title);
 }
 add_filter('the_title', 'ama_publicacoes_title', 10, 2);
-
-/**
- * Secções da ficha: título do <h2> e blocos de exemplo que vão dentro da secção.
- */
-function ama_publicacao_secoes(): array
-{
-    return [
-        'referencia' => [
-            'titulo'   => 'Referência (APA)',
-            'conteudo' => '<!-- wp:paragraph -->
-<p>Apelido, N., &amp; Apelido, N. (Ano). <em>Título da publicação</em>. Editor. https://acessibilidade.gov.pt/…</p>
-<!-- /wp:paragraph -->',
-        ],
-        'formatos' => [
-            'titulo'   => 'Formatos disponíveis',
-            'conteudo' => '<!-- wp:list -->
-<ul class="wp-block-list"><!-- wp:list-item -->
-<li>HTML: ligação para a versão HTML, na pasta do servidor</li>
-<!-- /wp:list-item -->
-
-<!-- wp:list-item -->
-<li>PDF (tamanho do ficheiro)</li>
-<!-- /wp:list-item -->
-
-<!-- wp:list-item -->
-<li>EPUB (tamanho do ficheiro)</li>
-<!-- /wp:list-item --></ul>
-<!-- /wp:list -->',
-        ],
-        'sumario' => [
-            'titulo'   => 'Sumário executivo',
-            'conteudo' => '<!-- wp:paragraph -->
-<p>Resumo da publicação: objetivo, metodologia e principais conclusões.</p>
-<!-- /wp:paragraph -->',
-        ],
-        'indice' => [
-            'titulo'   => 'Índice',
-            'conteudo' => '<!-- wp:list {"ordered":true} -->
-<ol class="wp-block-list"><!-- wp:list-item -->
-<li>Introdução</li>
-<!-- /wp:list-item -->
-
-<!-- wp:list-item -->
-<li>Capítulo<!-- wp:list {"ordered":true} -->
-<ol class="wp-block-list"><!-- wp:list-item -->
-<li>Secção</li>
-<!-- /wp:list-item --></ol>
-<!-- /wp:list --></li>
-<!-- /wp:list-item -->
-
-<!-- wp:list-item -->
-<li>Conclusões</li>
-<!-- /wp:list-item --></ol>
-<!-- /wp:list -->',
-        ],
-    ];
-}
-
-/**
- * Marcação de blocos de uma secção: um Grupo com a etiqueta <section> e um título H2.
- */
-function ama_publicacao_secao_markup(array $secao): string
-{
-    return '<!-- wp:group {"tagName":"section"} -->
-<section class="wp-block-group"><!-- wp:heading -->
-<h2 class="wp-block-heading">' . esc_html($secao['titulo']) . '</h2>
-<!-- /wp:heading -->
-
-' . $secao['conteudo'] . '</section>
-<!-- /wp:group -->';
-}
-
-/**
- * Padrões do editor: a ficha completa e cada secção em separado, no separador "Padrões" do inseridor.
- * Sem 'blockTypes' => core/post-content, para o WordPress não abrir "Escolha um padrão" em todas as páginas novas.
- */
-function ama_publicacoes_register_patterns(): void
-{
-    register_block_pattern_category('ama-publicacoes', ['label' => 'Publicações']);
-
-    $secoes = ama_publicacao_secoes();
-
-    register_block_pattern('ama/ficha-publicacao', [
-        'title'       => 'Ficha da publicação',
-        'description' => 'Referência APA, formatos disponíveis, sumário executivo e índice, cada um numa secção com título H2.',
-        'categories'  => ['ama-publicacoes'],
-        'postTypes'   => ['page'],
-        'content'     => implode("\n\n", array_map('ama_publicacao_secao_markup', $secoes)),
-    ]);
-
-    foreach ($secoes as $slug => $secao) {
-        register_block_pattern('ama/publicacao-' . $slug, [
-            'title'      => 'Publicação: ' . $secao['titulo'],
-            'categories' => ['ama-publicacoes'],
-            'content'    => ama_publicacao_secao_markup($secao),
-        ]);
-    }
-}
-add_action('init', 'ama_publicacoes_register_patterns');
-
-/**
- * Nas fichas, as secções ficam <section><h2>…</h2>…</section>, sem o
- * <div class="wp-block-group__inner-container"> que o WordPress acrescenta
- * aos grupos nos temas sem theme.json.
- */
-function ama_publicacao_section_sem_inner_container(string $block_content, array $block): string
-{
-    if (
-        ($block['attrs']['tagName'] ?? '') === 'section'
-        && doing_filter('the_content')
-        && ama_is_ficha_publicacao((int) get_the_ID())
-        && remove_filter('render_block_core/group', 'wp_restore_group_inner_container', 10)
-    ) {
-        add_filter('render_block_core/group', 'ama_publicacao_restore_inner_container_filter', 11);
-    }
-
-    return $block_content;
-}
-add_filter('render_block_core/group', 'ama_publicacao_section_sem_inner_container', 9, 2);
-
-/**
- * Volta a ligar o filtro do WordPress logo a seguir à secção.
- */
-function ama_publicacao_restore_inner_container_filter(string $block_content): string
-{
-    remove_filter('render_block_core/group', 'ama_publicacao_restore_inner_container_filter', 11);
-    add_filter('render_block_core/group', 'wp_restore_group_inner_container', 10, 2);
-
-    return $block_content;
-}
 
 /**
  * Publicações publicadas para a página agregadora (issue #17): as fichas em páginas
