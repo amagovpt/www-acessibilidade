@@ -192,10 +192,12 @@ add_action('init', 'ama_publicacoes_register_taxonomy', 99);
 
 /**
  * Caixa "Publicação" no editor das fichas: categoria e destaque na página agregadora.
+ * Também é criada nas páginas novas e nas de Tutoriais (ver ama_pagina_pode_ter_caixas()
+ * em inc/tutoriais.php); o script abaixo mostra-a só quando a mãe é "Publicações".
  */
 function ama_publicacoes_add_meta_box(WP_Post $post): void
 {
-    if (!ama_is_ficha_publicacao($post->ID) || !taxonomy_exists('categoria_publicacao')) {
+    if (!ama_publicacoes_root_id() || !taxonomy_exists('categoria_publicacao') || !ama_pagina_pode_ter_caixas($post)) {
         return;
     }
 
@@ -228,7 +230,8 @@ function ama_publicacoes_meta_box(WP_Post $post): void
 function ama_publicacoes_save_meta_box(int $post_id): void
 {
     if (!isset($_POST['ama_publicacao_nonce']) || !wp_verify_nonce(sanitize_key($_POST['ama_publicacao_nonce']), 'ama_publicacao_meta')
-        || (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || !current_user_can('edit_post', $post_id)) {
+        || (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || !current_user_can('edit_post', $post_id)
+        || !ama_is_ficha_publicacao($post_id)) {
         return;
     }
 
@@ -242,6 +245,49 @@ function ama_publicacoes_save_meta_box(int $post_id): void
     }
 }
 add_action('save_post_page', 'ama_publicacoes_save_meta_box');
+
+/**
+ * No editor de blocos, mostra a caixa "Tutorial" só quando a página-mãe é "Tutoriais" e a
+ * caixa "Publicação" só quando é "Publicações", e atualiza ao mudar a mãe, sem ter de
+ * recarregar a página depois de gravar.
+ */
+function ama_caixas_por_pagina_mae(): void
+{
+    $screen = get_current_screen();
+    if (!$screen || $screen->post_type !== 'page') {
+        return;
+    }
+
+    $caixas = wp_json_encode([
+        'ama-tutorial'   => ama_tutoriais_root_id(),
+        'ama-publicacao' => ama_publicacoes_root_id(),
+    ]);
+
+    wp_add_inline_script('wp-edit-post', <<<JS
+(function () {
+    var caixas = {$caixas};
+    function atualizar() {
+        var editor = wp.data.select('core/editor');
+        var mae = editor && editor.getEditedPostAttribute ? Number(editor.getEditedPostAttribute('parent')) || 0 : null;
+        if (mae === null) {
+            return;
+        }
+        Object.keys(caixas).forEach(function (id) {
+            var caixa = document.getElementById(id);
+            if (caixa) {
+                caixa.style.display = caixas[id] && mae === caixas[id] ? '' : 'none';
+            }
+        });
+    }
+    (wp.domReady || function (fn) { fn(); })(function () {
+        atualizar();
+        wp.data.subscribe(atualizar);
+    });
+})();
+JS
+    );
+}
+add_action('enqueue_block_editor_assets', 'ama_caixas_por_pagina_mae');
 
 /**
  * Estilos da página agregadora "Publicações", com a versão pela data do ficheiro.
