@@ -11,11 +11,10 @@
 
 /* Índice das páginas, à esquerda */
 
+/* Não fixo ao fazer scroll (pedido do Jorge, 2026-11-08) */
 .tutorial-nav {
   grid-column: 1;
   grid-row: 1 / span 2;
-  position: sticky;
-  top: 1rem;
 }
 
 .tutorial-nav-title {
@@ -240,7 +239,6 @@
   }
 
   .tutorial-nav {
-    position: static;
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--prata);
