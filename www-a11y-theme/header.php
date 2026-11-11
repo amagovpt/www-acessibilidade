@@ -35,6 +35,8 @@ defined('ABSPATH') || exit;
 					<button class="order-2 btn btn-link dark-mode p-1 d-flex align-items-center" id="darkModeBtn">
 						<span id="darkModeLabel">Modo Escuro</span><span class="icon-dark icon" aria-hidden="true"></span>
 					</button>
+					<?php // Ligações extra na barra de topo (ex.: mudar de língua no Gerador da Declaração). ?>
+					<?php do_action( 'ama_top_bar_itens' ); ?>
 					<button id="flushHeading" type="button" class="order-1 btn btn-link btn-ecossistema collapsed d-flex align-items-center p-1" data-bs-toggle="collapse" data-bs-target="#flushEcossistema" aria-expanded="false" aria-controls="flushEcossistema">
 						<span class="icon-ed-menu-dots icon" aria-hidden="true"></span>
 						<span>Uma ferramenta do ecossistema <span class="fw-bold">acessibilidade.gov.pt</span></span>

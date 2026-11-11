@@ -737,3 +737,35 @@ padding-top:50px;
 	border-color: #b6dcf6;
 	color: #ebf2f6;
 }
+
+/*
+ * Ligação para a outra língua na barra de topo do tema, ao lado do "Modo Escuro" (issue #53).
+ * Mesmo aspeto do botão do modo escuro; o texto fica sublinhado por ser uma ligação.
+ */
+.top-bar-item .gerador-lingua {
+	color: var(--primary);
+}
+.dark-theme .top-bar-item .gerador-lingua {
+	color: var(--quinary);
+}
+.top-bar-item .gerador-lingua em {
+	text-decoration: underline;
+}
+.top-bar-item .gerador-lingua .icon-globe-language {
+	font-size: 20px;
+	padding-left: 10px;
+}
+@media (min-width: 992px) {
+	.top-bar-item .gerador-lingua {
+		margin-left: 1.5rem;
+	}
+}
+@media screen and (max-width: 991px) {
+	.top-bar-item .gerador-lingua {
+		border: 1px solid var(--primary);
+		margin-bottom: 8px;
+	}
+	.dark-theme .top-bar-item .gerador-lingua {
+		border-color: var(--quinary);
+	}
+}
