@@ -97,25 +97,20 @@ function ama_gerador_lang_en( $output ) {
 add_filter( 'language_attributes', 'ama_gerador_lang_en', 20 );
 
 /**
- * Cabeçalho comum às duas páginas: breadcrumb, título, descrição e ligação para a outra língua.
+ * Cabeçalho comum às duas páginas: breadcrumb, título e descrição.
  */
 function ama_gerador_cabecalho( $lingua ) {
 	$id     = get_the_ID();
-	$par    = ama_gerador_pagina_par( $id );
 	$textos = 'en' === $lingua
 		? array(
 			'aqui'      => 'You are here',
 			'inicio'    => 'Home',
 			'descricao' => 'Tool that automatically generates the Accessibility and Usability Statement ready to publish on your website.',
-			'outra'     => 'Versão em português',
-			'outra_lng' => 'pt-PT',
 		)
 		: array(
 			'aqui'      => 'Você está aqui',
 			'inicio'    => 'Início',
 			'descricao' => 'Ferramenta que gera automaticamente a Declaração de Acessibilidade e Usabilidade pronta a publicar no seu sítio Web.',
-			'outra'     => 'English version',
-			'outra_lng' => 'en',
 		);
 
 	$descricao = function_exists( 'get_field' ) ? get_field( 'descricao_pagina', $id ) : '';
@@ -140,17 +135,31 @@ function ama_gerador_cabecalho( $lingua ) {
 				<h1><?php the_title(); ?></h1>
 				<?php echo wp_kses_post( wpautop( $descricao ) ); ?>
 			</div>
-			<?php if ( $par ) : ?>
-			<div class="col-12 col-lg-4 d-flex justify-content-lg-end align-items-end">
-				<p class="gerador-lingua mb-3">
-					<a href="<?php echo esc_url( get_permalink( $par ) ); ?>" lang="<?php echo esc_attr( $textos['outra_lng'] ); ?>" hreflang="<?php echo esc_attr( $textos['outra_lng'] ); ?>"><?php echo esc_html( $textos['outra'] ); ?></a>
-				</p>
-			</div>
-			<?php endif; ?>
 		</div>
 	</div>
 	<?php
 }
+
+/**
+ * Ligação para a outra língua na barra de topo, ao lado do "Modo Escuro",
+ * como no gerador antigo (issue #53). Usa o hook ama_top_bar_itens do header.php do tema pai.
+ */
+function ama_gerador_top_bar_lingua() {
+	$lingua = is_page() ? ama_gerador_lingua() : '';
+	$par    = $lingua ? ama_gerador_pagina_par( get_queried_object_id() ) : 0;
+	if ( ! $par ) {
+		return;
+	}
+
+	$texto = 'en' === $lingua ? 'Em Português' : 'See in English';
+	$lang  = 'en' === $lingua ? 'pt-PT' : 'en';
+	?>
+	<a class="order-2 btn btn-link dark-mode gerador-lingua p-1 d-flex align-items-center" href="<?php echo esc_url( get_permalink( $par ) ); ?>" lang="<?php echo esc_attr( $lang ); ?>" hreflang="<?php echo esc_attr( $lang ); ?>">
+		<em><?php echo esc_html( $texto ); ?></em><span class="icon-globe-language icon" aria-hidden="true"></span>
+	</a>
+	<?php
+}
+add_action( 'ama_top_bar_itens', 'ama_gerador_top_bar_lingua' );
 
 /**
  * Página completa do gerador (usada pelos dois templates).
