@@ -91,6 +91,21 @@
   top: 1rem;
 }
 
+/* Sem salto do conteúdo ao abrir (issue #55): quando os links passam para a direita, um
+   marcador invisível com o mesmo texto e tamanho do <summary> fica no lugar deles, como
+   no Lab. visibility: hidden também o esconde dos leitores de ecrã. */
+.tutorial-layout:has(.tutorial-toc details[open])::before {
+  content: "Links de acesso rápido";
+  grid-column: 2;
+  grid-row: 1;
+  visibility: hidden;
+  padding-left: 1.25em;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: var(--bs-body-line-height, 1.5);
+}
+
 .tutorial-toc summary {
   cursor: pointer;
   font-weight: 700;
@@ -109,6 +124,15 @@
   grid-column: 2;
   grid-row: 2;
   min-width: 0;
+}
+
+/* As linhas separadoras do conteúdo em cinzento, para não se confundirem com a linha
+   escura do cabeçalho (issue #55, como no Lab). #767676 tem contraste ≥ 3:1 nos dois temas. */
+.tutorial-content hr,
+.tutorial-content .wp-block-separator {
+  color: #767676;
+  border-color: #767676;
+  opacity: 1;
 }
 
 /* Apresentação do tutorial: sem o índice das páginas à esquerda, numa só coluna (issue #30) */
@@ -228,6 +252,11 @@
 
   .tutorial-toc details[open] {
     position: static;
+  }
+
+  /* Aqui os links abertos ficam no fluxo central: não é preciso guardar o lugar */
+  .tutorial-layout:has(.tutorial-toc details[open])::before {
+    content: none;
   }
 }
 
