@@ -183,7 +183,8 @@ function ama_cookie_consent_enqueue(): void
         'ama-cookie-consent',
         get_stylesheet_directory_uri() . '/css/cookie-consent.css',
         ['parent-style'],
-        $theme_version
+        // Versão pela data do ficheiro, para o CSS novo não ficar preso em cache depois de um deploy.
+        filemtime( get_stylesheet_directory() . '/css/cookie-consent.css' )
     );
 
     wp_enqueue_script(
