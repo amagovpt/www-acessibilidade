@@ -97,7 +97,7 @@ function ama_gerador_lang_en( $output ) {
 add_filter( 'language_attributes', 'ama_gerador_lang_en', 20 );
 
 /**
- * Cabeçalho comum às duas páginas: breadcrumb, título e descrição.
+ * Cabeçalho comum às duas páginas: breadcrumb, título, descrição e imagem.
  */
 function ama_gerador_cabecalho( $lingua ) {
 	$id     = get_the_ID();
@@ -120,6 +120,13 @@ function ama_gerador_cabecalho( $lingua ) {
 	if ( ! $descricao ) {
 		$descricao = $textos['descricao'];
 	}
+
+	// Imagem à direita, como nas outras páginas (page.php, issue #58): a imagem de destaque
+	// ou, se não houver, o ícone de destaque (ACF ama_icon_destaque).
+	$imagem = has_post_thumbnail( $id ) ? get_the_post_thumbnail( $id ) : '';
+	if ( ! $imagem && function_exists( 'get_field' ) ) {
+		$imagem = (string) get_field( 'ama_icon_destaque', $id );
+	}
 	?>
 	<div class="page-header gerador-header">
 		<nav aria-label="<?php echo esc_attr( $textos['aqui'] ); ?>">
@@ -135,6 +142,13 @@ function ama_gerador_cabecalho( $lingua ) {
 				<h1><?php the_title(); ?></h1>
 				<?php echo wp_kses_post( wpautop( $descricao ) ); ?>
 			</div>
+			<?php if ( $imagem ) : ?>
+			<div class="d-none d-lg-flex col-lg-4 justify-content-center featured-image">
+				<div class="featured-image">
+					<?php echo $imagem; // phpcs:ignore WordPress.Security.EscapeOutput -- HTML do WordPress / campo ACF, como em page.php. ?>
+				</div>
+			</div>
+			<?php endif; ?>
 		</div>
 	</div>
 	<?php
