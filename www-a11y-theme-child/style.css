@@ -954,3 +954,69 @@ a.version:hover {
         padding-bottom: 1.25rem;
     }
 }
+
+/* Pesquisa no cabeçalho (issue #57): há um só formulário (header.php do tema pai).
+   Em ecrãs largos abre no menu do botão "Pesquisar"; em ecrãs pequenos o botão fica
+   escondido e o mesmo formulário aparece sempre, com o aspeto do antigo campo móvel. */
+@media (max-width: 991.98px) {
+    .navigation .search .search-panel.dropdown-menu {
+        display: block;
+        position: static !important;
+        inset: auto !important;
+        transform: none !important;
+        float: none;
+        min-width: 0;
+        margin: 1rem 0;
+        padding: 0 !important;
+        border: 0;
+        border-radius: 0;
+        background-color: transparent;
+        box-shadow: none;
+        color: inherit;
+        z-index: auto;
+    }
+
+    .navigation .search .form-search-bar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 48px;
+        align-items: stretch;
+        gap: 0;
+        margin: 0;
+    }
+
+    .navigation .search .form-search-bar label.ama {
+        grid-column: 1 / -1;
+        width: auto;
+        margin-bottom: 0.5rem;
+        font-weight: 400;
+        font-family: inherit;
+        font-size: inherit;
+        color: inherit;
+    }
+
+    .navigation .search .form-search-bar #search-input {
+        width: auto;
+        min-height: 44px;
+        padding: 10px;
+        border: 2px solid var(--primary) !important;
+        border-right: 0 !important;
+        border-radius: 0;
+    }
+
+    .navigation .search .form-search-bar .search-submit {
+        width: 48px;
+        height: auto;
+        border: 2px solid var(--primary);
+        border-left: 0 !important;
+        border-radius: 0;
+        color: var(--primary);
+        background-color: transparent;
+    }
+
+    .dark-theme .navigation .search .form-search-bar #search-input,
+    .dark-theme .navigation .search .form-search-bar .search-submit {
+        border-color: var(--quinary) !important;
+        background-color: transparent;
+        color: #ebf2f6;
+    }
+}

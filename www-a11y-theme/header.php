@@ -138,28 +138,27 @@ defined('ABSPATH') || exit;
 						</nav>
 					</div>
 				</div>
+				<?php
+				// Um só formulário de pesquisa (#57). Em ecrãs largos abre no menu do botão
+				// "Pesquisar"; em ecrãs pequenos o mesmo formulário fica sempre visível
+				// (CSS no style.css do tema filho). Sem CSS aparece só um campo.
+				?>
 				<div class="search" role="search">
-					<div class="d-none d-lg-block">
-						<div class="dropdown">
-							<button aria-haspopup="dialog" class="ama btn btn-secondary d-flex flex-row align-items-center" type="button" id="searchDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-								<span class="icon-search icon" aria-hidden="true"></span>
-								<span>Pesquisar</span>
-							</button>
-							<div class="dropdown-menu dropdown-menu-end p-1" aria-labelledby="searchDropdown">
-								<form method="get" class="form-search-bar" action="<?= esc_url(home_url('/')); ?>">
-									<label for="search-input" class="ama">Pesquisar por:</label>
-									<input type="search" id="search-input" class="ama form-control" value="<?= get_search_query(); ?>" name="s">
-									<button type="submit" class="search-submit">
-										<span class="icon-search icon" aria-hidden="true"></span>
-										<span class="visually-hidden">Pesquisar</span>
-									</button>
-
-								</form>
-							</div>
+					<div class="dropdown">
+						<button aria-haspopup="dialog" class="ama btn btn-secondary d-none d-lg-flex flex-row align-items-center" type="button" id="searchDropdown" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="search-panel">
+							<span class="icon-search icon" aria-hidden="true"></span>
+							<span>Pesquisar</span>
+						</button>
+						<div class="dropdown-menu dropdown-menu-end p-1 search-panel" id="search-panel" aria-labelledby="searchDropdown">
+							<form method="get" class="form-search-bar" action="<?= esc_url(home_url('/')); ?>">
+								<label for="search-input" class="ama">Pesquisar por:</label>
+								<input type="search" id="search-input" class="ama form-control" value="<?= esc_attr(get_search_query()); ?>" name="s">
+								<button type="submit" class="search-submit">
+									<span class="icon-search icon" aria-hidden="true"></span>
+									<span class="visually-hidden">Pesquisar</span>
+								</button>
+							</form>
 						</div>
-					</div>
-					<div class="d-lg-none">
-						<?= AMA_get_search_form(); ?>
 					</div>
 				</div>
 			</div>
