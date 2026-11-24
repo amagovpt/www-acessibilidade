@@ -215,7 +215,7 @@ get_header(); ?>
 							<p class="mb-0">Última atualização: <?php echo get_the_modified_date('j \d\e F, Y'); ?></p>
 						</div>
 					</div>
-                    <?= do_shortcode('[accessmonitor_wide]'); ?>
+                    <?php ama_pre_rodape(); ?>
 				</div>
 			</main>
 		</div>

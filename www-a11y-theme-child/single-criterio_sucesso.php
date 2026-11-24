@@ -133,7 +133,7 @@ get_header();
                 </div>
             </main>
         </div>
-        <?= do_shortcode('[accessmonitor_wide]'); ?>
+        <?php ama_pre_rodape(); ?>
     </div>
 <?php
 
