@@ -87,7 +87,7 @@ function posts_cards_cb( $attrs ): string {
         '<div class="container py-5">
             <div class="row">
                 <div class="col p-0">
-                    <ul class="grid grid-1 grid-md-3 gap-40 list-unstyled">%s</ul>
+                    <ul class="grid grid-1 grid-md-3 gap-40 list-unstyled cartoes-noticias">%s</ul>
                 </div>
             </div>
         </div>',
