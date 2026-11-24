@@ -1,22 +1,43 @@
 <?php
-function get_tools_home(): ?string
+/**
+ * [get_tools_home total="6"]: ferramentas na página de início (issue #63).
+ *
+ * Ordem: primeiro as ferramentas com o campo "Destaque" = Sim e, a seguir, as mais
+ * recentes. Lista em duas colunas, seguida da ligação "Todas as ferramentas".
+ */
+function get_tools_home($attrs = []): string
 {
-    $output = '';
-    $tools_params = array(
-        'limit'   => 7,
-        'orderby' => 'destaque.meta_value DESC, post_date DESC',
-        'post_status' => 'publish'
-    );
-    $tools = pods( 'ferramentas' , $tools_params);
-    while ($tools->fetch()){
-        $id_tool = $tools->display('ID');
-        $target = get_post_meta($id_tool,'link_externo');
-        $target_txt = '';
-        if($target[0] == "1"){
-            $target_txt = 'target="_blank"';
-        }
-        $output .= '<li><a '.$target_txt.' href="'.$tools->display('link').'">'.$tools->display('post_title').'<span class="visually-hidden"> hiperligação externa</span></a></li>';
+    $attrs = shortcode_atts(['total' => 6], $attrs, 'get_tools_home');
+    $total = max(1, absint($attrs['total']));
+
+    if (!function_exists('pods')) {
+        return '';
     }
-    return  sprintf('<ul class="ama-list">%s</ul>', $output);
+
+    $tools = pods('ferramentas', [
+        'limit'       => $total,
+        'orderby'     => 'destaque.meta_value DESC, post_date DESC',
+        'post_status' => 'publish',
+    ]);
+    if (!$tools || !$tools->total()) {
+        return '';
+    }
+
+    $output = '';
+    while ($tools->fetch()) {
+        $external = (string) get_post_meta($tools->id(), 'link_externo', true) === '1';
+
+        $output .= sprintf(
+            '<li><a href="%s"%s>%s%s</a></li>',
+            esc_url($tools->display('link')),
+            $external ? ' target="_blank" rel="noopener"' : '',
+            esc_html(wp_specialchars_decode($tools->display('post_title'), ENT_QUOTES)),
+            $external ? '<span class="visually-hidden"> hiperligação externa</span>' : ''
+        );
+    }
+
+    $page = get_page_by_path('ferramentas');
+
+    return ama_lista_homepage($output, $page ? get_permalink($page) : '', 'Todas as ferramentas');
 }
-add_shortcode( 'get_tools_home', 'get_tools_home' );
+add_shortcode('get_tools_home', 'get_tools_home');
