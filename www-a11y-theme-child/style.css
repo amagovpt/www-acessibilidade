@@ -298,6 +298,30 @@ a.post-card-wrapper {
     background-color: var(--primary);
 }
 
+/* Cartões de notícias da página de início ([posts-cards]): contorno de 2px preto (issue #67) */
+.cartoes-noticias .post-card {
+    border: 2px solid #000;
+}
+
+.dark-theme .cartoes-noticias .post-card {
+    border-color: var(--quinary);
+}
+
+/* Com o contorno por omissão, o foco do teclado passa a ser um contorno exterior, para continuar visível */
+.cartoes-noticias .post-card:focus-within {
+    outline: 3px solid var(--primary);
+    outline-offset: 3px;
+}
+
+.dark-theme .cartoes-noticias .post-card:focus-within {
+    outline-color: var(--quinary);
+}
+
+.cartoes-noticias .post-card a:focus,
+.cartoes-noticias .post-card a:focus-visible {
+    outline: none;
+}
+
 .post-card > .post-thumbnail {
     aspect-ratio: 16/9;
     width: 100%;
