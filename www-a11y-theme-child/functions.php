@@ -37,7 +37,7 @@ function child_theme_enqueue_stylesheet(): void
         'acessibilidade-theme-style',
         get_stylesheet_directory_uri() . "/css/acessibilidade-theme.css",
         ['parent-style'],
-        '1.0.1',
+        (string) filemtime(get_stylesheet_directory() . '/css/acessibilidade-theme.css'),
     );
 
 }

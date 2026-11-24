@@ -54,6 +54,25 @@
 	}
 }
 
+/* Carrossel "Em destaque": slide com imagem, texto 66% | imagem 33% (issue #64) */
+#carousel_highlights_articles .destaque-imagem-coluna {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+#carousel_highlights_articles .destaque-imagem {
+    width: 100%;
+    height: auto;
+}
+
+@media (max-width: 767.98px) {
+    #carousel_highlights_articles .destaque-imagem-coluna {
+        margin-top: 1.5rem;
+        justify-content: flex-start;
+    }
+}
+
 .carousel-indicators li:hover:not(.active){
 	animation-name: exampleCarousel;
 	animation-duration: 0.5s;
