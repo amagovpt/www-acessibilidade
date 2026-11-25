@@ -146,13 +146,7 @@ get_header();
             </div>
         </div>
     </div>
-    <div class="container-fluid p-0 mt-3">
-        <div class="row g-0">
-            <div class="col">
-                <?= do_shortcode('[accessmonitor_wide]'); ?>
-            </div>
-        </div>
-    </div>
+    <?php ama_pre_rodape('mt-3'); ?>
 </main>
 <?php
 get_footer();

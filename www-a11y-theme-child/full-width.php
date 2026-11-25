@@ -89,7 +89,7 @@ get_header();
             </div>
         </div>
     </div>
-    <?= do_shortcode('[accessmonitor_wide]'); ?>
+    <?php ama_pre_rodape(); ?>
 </main>
 <?php
 get_footer();
