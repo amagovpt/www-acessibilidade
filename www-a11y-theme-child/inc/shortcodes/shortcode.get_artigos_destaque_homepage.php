@@ -6,6 +6,10 @@
  * Cada slide pode ter uma imagem (issue #64), escolhida no campo "Imagem no destaque da
  * página de início" do artigo. Com imagem: texto 66% | imagem 33%; sem imagem, o texto
  * ocupa a largura toda.
+ *
+ * Leitura linear (issue #73): no HTML cada slide segue a ordem título, imagem, descrição,
+ * botão, e o seletor vem depois dos slides. Em ecrãs largos a grelha CSS põe a imagem na
+ * coluna da direita, ao lado do título e da descrição (css/acessibilidade-theme.css).
  */
 function get_artigos_destaque_homepage(): string
 {
@@ -32,6 +36,26 @@ function get_artigos_destaque_homepage(): string
 
     $output = '<div id="carousel_highlights_articles" class="carousel" data-ride="carousel" data-interval="false">';
 
+    $output .= '<div class="carousel-inner">';
+    foreach ($stickies as $x => $post) {
+        $category = get_the_category($post->ID);
+        $link     = $home . '/blogue/' . ($category ? $category[0]->slug : 'sem-categoria') . '/' . $post->post_name;
+        $button   = (string) get_post_meta($post->ID, 'sticky_button', true);
+        $image_id = (int) get_post_meta($post->ID, 'ama_imagem_carrossel', true);
+        $image    = $image_id ? wp_get_attachment_image($image_id, 'medium_large', false, ['class' => 'img-fluid destaque-imagem']) : '';
+
+        $slide = '<h3 class="info_title destaque-titulo h2 mb-3"><a href="' . esc_url($link) . '">' . $post->post_title . '</a></h3>'
+            . ($image !== '' ? '<div class="destaque-imagem-coluna">' . $image . '</div>' : '')
+            . '<p class="info_content destaque-descricao mb-3">' . get_the_excerpt($post) . '</p>'
+            . '<div class="btn_more_infos destaque-botao"><a class="ama btn btn-primary" title="' . esc_attr(wp_strip_all_tags($post->post_title)) . '" href="' . esc_url($link) . '">' . ($button !== '' ? esc_html($button) : 'Ler mais') . '</a></div>';
+
+        $output .= '<div class="carousel-item' . ($x === 0 ? ' active' : '') . '">'
+            . '<div class="destaque-slide' . ($image !== '' ? ' destaque-slide--imagem' : '') . '">' . $slide . '</div>'
+            . '</div>';
+    }
+    $output .= '</div>';
+
+    // Seletor depois dos slides: é lido no fim, como aparece no ecrã.
     if ($count > 1) {
         $output .= '<ol class="carousel-indicators" aria-label="' . $count . ' destaques, seletor em forma de carrossel">';
         for ($y = 0; $y < $count; $y++) {
@@ -44,29 +68,7 @@ function get_artigos_destaque_homepage(): string
         }
         $output .= '</ol>';
     }
-
-    $output .= '<div class="carousel-inner">';
-    foreach ($stickies as $x => $post) {
-        $category = get_the_category($post->ID);
-        $link     = $home . '/blogue/' . ($category ? $category[0]->slug : 'sem-categoria') . '/' . $post->post_name;
-        $button   = (string) get_post_meta($post->ID, 'sticky_button', true);
-        $image_id = (int) get_post_meta($post->ID, 'ama_imagem_carrossel', true);
-        $image    = $image_id ? wp_get_attachment_image($image_id, 'medium_large', false, ['class' => 'img-fluid destaque-imagem']) : '';
-
-        $text = '<h3 class="info_title h2 mb-3"><a href="' . esc_url($link) . '">' . $post->post_title . '</a></h3>'
-            . '<p class="info_content mb-3">' . get_the_excerpt($post) . '</p>'
-            . '<div class="d-inline btn_more_infos"><a class="ama btn btn-primary" title="' . esc_attr($post->post_title) . '" href="' . esc_url($link) . '">' . ($button !== '' ? esc_html($button) : 'Ler mais') . '</a></div>';
-
-        if ($image !== '') {
-            $text = '<div class="row">'
-                . '<div class="col-12 col-md-8">' . $text . '</div>'
-                . '<div class="col-12 col-md-4 destaque-imagem-coluna">' . $image . '</div>'
-                . '</div>';
-        }
-
-        $output .= '<div class="carousel-item' . ($x === 0 ? ' active' : '') . '">' . $text . '</div>';
-    }
-    $output .= '</div></div>';
+    $output .= '</div>';
 
     return $output;
 }

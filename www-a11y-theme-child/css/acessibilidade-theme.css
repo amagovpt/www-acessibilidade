@@ -34,42 +34,74 @@
 	color: white;
 }
 
-.carousel-indicators{
-	margin-right: 0!important;
-	margin-left: 0!important;
-	bottom: -24px !important;
-	left: auto;
-	z-index: 9;
+/*
+ * Carrossel "Em destaque" (issues #64 e #73).
+ * O seletor vem depois dos slides no HTML e fica no fluxo normal, por baixo do slide:
+ * já não é posicionado por cima do conteúdo, e a imagem nunca fica entre o fim do slide
+ * e o seletor.
+ */
+#carousel_highlights_articles .carousel-indicators {
+    position: static;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin: 1.5rem 0 0 !important;
+    padding: 0;
 }
 
-@media (max-width: 768px) {
-    .carousel-indicators {
-        bottom: -95px !important;
-        left: 0;
-        justify-content: flex-start;
-    }
-
-    #carousel_highlights_articles {
-		margin-bottom: 100px;
-	}
+/* Botões não selecionados: contorno primário, contraste > 3:1 com o fundo (WCAG 1.4.11) */
+#carousel_highlights_articles .carousel-indicators [data-bs-target] {
+    box-sizing: border-box;
+    border: 2px solid #333399;
+    background-clip: border-box;
+    opacity: 1; /* o Bootstrap põe 0.5 nos não selecionados */
 }
 
-/* Carrossel "Em destaque": slide com imagem, texto 66% | imagem 33% (issue #64) */
+.dark-theme #carousel_highlights_articles .carousel-indicators [data-bs-target] {
+    border-color: #b6dcf6;
+}
+
+/* Slide com imagem: título, imagem, descrição e botão por esta ordem (leitura linear) */
 #carousel_highlights_articles .destaque-imagem-coluna {
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
 #carousel_highlights_articles .destaque-imagem {
-    width: 100%;
+    display: block;
+    width: 70%;
     height: auto;
 }
 
-@media (max-width: 767.98px) {
-    #carousel_highlights_articles .destaque-imagem-coluna {
-        margin-top: 1.5rem;
-        justify-content: flex-start;
+/* Ecrãs largos: grelha de 2 colunas, imagem centrada à direita do título e da descrição */
+@media (min-width: 768px) {
+    #carousel_highlights_articles .destaque-slide--imagem {
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+        grid-template-rows: auto auto auto;
+        column-gap: 1.5rem;
+    }
+
+    #carousel_highlights_articles .destaque-slide--imagem .destaque-titulo {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    #carousel_highlights_articles .destaque-slide--imagem .destaque-imagem-coluna {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        margin-bottom: 0;
+    }
+
+    #carousel_highlights_articles .destaque-slide--imagem .destaque-descricao {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    #carousel_highlights_articles .destaque-slide--imagem .destaque-botao {
+        grid-column: 1;
+        grid-row: 3;
     }
 }
 
