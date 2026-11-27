@@ -47,7 +47,7 @@ function get_artigos_destaque_homepage(): string
         $slide = '<h3 class="info_title destaque-titulo h2 mb-3"><a href="' . esc_url($link) . '">' . $post->post_title . '</a></h3>'
             . ($image !== '' ? '<div class="destaque-imagem-coluna">' . $image . '</div>' : '')
             . '<p class="info_content destaque-descricao mb-3">' . get_the_excerpt($post) . '</p>'
-            . '<div class="btn_more_infos destaque-botao"><a class="ama btn btn-primary" title="' . esc_attr($post->post_title) . '" href="' . esc_url($link) . '">' . ($button !== '' ? esc_html($button) : 'Ler mais') . '</a></div>';
+            . '<div class="btn_more_infos destaque-botao"><a class="ama btn btn-primary" title="' . esc_attr(wp_strip_all_tags($post->post_title)) . '" href="' . esc_url($link) . '">' . ($button !== '' ? esc_html($button) : 'Ler mais') . '</a></div>';
 
         $output .= '<div class="carousel-item' . ($x === 0 ? ' active' : '') . '">'
             . '<div class="destaque-slide' . ($image !== '' ? ' destaque-slide--imagem' : '') . '">' . $slide . '</div>'
