@@ -33,7 +33,7 @@ function get_articles_category(){
 		                            <div class="d-sm-block d-none">
 		                                <p>'.$descricao.'</p>
 		                                <div class="d-inline-flex read_more">
-		                                    <a href="'.$home.'/blogue/'.$category[0]->slug.'/'.$all_articles->post_name.'" title="'.$all_articles->post_title.'">Ler mais</a>
+		                                    <a href="'.$home.'/blogue/'.$category[0]->slug.'/'.$all_articles->post_name.'" title="'.esc_attr(ama_titulo_texto($all_articles)).'">Ler mais</a>
 		                                    <div class="d-flex align-items-center read_more_arrow">
 		                                        <div aria-hidden="true" class="icon-arrow-bullets d-flex align-items-center"></div>
 		                                    </div>

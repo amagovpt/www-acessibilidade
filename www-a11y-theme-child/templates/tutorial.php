@@ -26,10 +26,10 @@ $is_intro    = $current_id === $tutorial_id;
                             </li>
                             <?php foreach ( array_reverse( get_post_ancestors( $current_id ) ) as $ancestor_id ) : ?>
                                 <li class="breadcrumb-item">
-                                    <a href="<?= esc_url( get_permalink( $ancestor_id ) ); ?>"><?= esc_html( get_the_title( $ancestor_id ) ); ?></a>
+                                    <a href="<?= esc_url( get_permalink( $ancestor_id ) ); ?>"><?= ama_titulo_html( $ancestor_id ); ?></a>
                                 </li>
                             <?php endforeach; ?>
-                            <li class="breadcrumb-item active" aria-current="page"><?= esc_html( get_the_title( $current_id ) ); ?></li>
+                            <li class="breadcrumb-item active" aria-current="page"><?= ama_titulo_html( $current_id ); ?></li>
                         </ol>
                     </nav>
                     <div class="row">

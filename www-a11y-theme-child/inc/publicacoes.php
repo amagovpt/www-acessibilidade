@@ -94,7 +94,7 @@ function ama_publicacoes_items(): array
         $icon    = $icon_id ? wp_get_attachment_image($icon_id, 'medium', false, ['class' => 'icon_card', 'alt' => '', 'aria-hidden' => 'true']) : '';
 
         $items[] = [
-            'title'       => get_the_title($post),
+            'title'       => ama_titulo_html($post),
             'url'         => get_permalink($post),
             'description' => $is_page ? (has_excerpt($post) ? get_the_excerpt($post) : '') : html_entity_decode(wp_strip_all_tags((string) get_post_meta($post->ID, 'descricao', true)), ENT_QUOTES, 'UTF-8'),
             'category'    => is_array($terms) && $terms ? $terms[0] : null,
@@ -132,7 +132,7 @@ function ama_publicacoes_shortcode(): string
             . '<div class="card-footer">%s</div></li>',
             $item['category'] ? '<p class="card-text">' . esc_html($item['category']->name) . '</p>' : '',
             esc_url($item['url']),
-            esc_html($item['title']),
+            $item['title'],
             $item['icon']
         );
     }
@@ -162,7 +162,7 @@ function ama_publicacoes_shortcode(): string
             $list .= sprintf(
                 '<li><a href="%s">%s</a>%s</li>',
                 esc_url($item['url']),
-                esc_html($item['title']),
+                $item['title'],
                 $item['description'] !== '' ? '<span class="d-block small">' . esc_html($item['description']) . '</span>' : ''
             );
         }

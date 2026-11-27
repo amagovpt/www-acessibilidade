@@ -245,7 +245,7 @@ function ama_tutorial_nav(int $tutorial_id, int $current_id): string
         '<a href="%s"%s>%s</a>',
         esc_url(get_permalink($id)),
         $id === $current_id ? ' aria-current="page"' : '',
-        esc_html(get_the_title($id))
+        ama_titulo_html($id)
     );
 
     // As páginas já vêm em profundidade; a profundidade de cada uma define o encaixe.
@@ -291,14 +291,14 @@ function ama_tutorial_pagination(int $tutorial_id, int $current_id): string
         $links .= sprintf(
             '<li class="tutorial-pagination-previous"><a href="%s">Página anterior: %s</a></li>',
             esc_url(get_permalink($sequence[$index - 1])),
-            esc_html(get_the_title($sequence[$index - 1]))
+            ama_titulo_html($sequence[$index - 1])
         );
     }
     if ($index < count($sequence) - 1) {
         $links .= sprintf(
             '<li class="tutorial-pagination-next"><a href="%s">Próxima página: %s</a></li>',
             esc_url(get_permalink($sequence[$index + 1])),
-            esc_html(get_the_title($sequence[$index + 1]))
+            ama_titulo_html($sequence[$index + 1])
         );
     }
 
@@ -364,7 +364,7 @@ function ama_tutorial_intro(int $tutorial_id): string
     $list = '';
     foreach ($pages as $item) {
         if ($item['depth'] === 0) {
-            $list .= sprintf('<li><a href="%s">%s</a></li>', esc_url(get_permalink($item['page'])), esc_html(get_the_title($item['page'])));
+            $list .= sprintf('<li><a href="%s">%s</a></li>', esc_url(get_permalink($item['page'])), ama_titulo_html($item['page']));
         }
     }
 
@@ -414,7 +414,7 @@ function ama_tutoriais_items(): array
 
         $items[] = [
             'id'          => $post->ID,
-            'title'       => get_the_title($post),
+            'title'       => ama_titulo_html($post),
             'url'         => get_permalink($post),
             'category'    => is_array($terms) && $terms ? $terms[0] : null,
             'description' => $is_page && has_excerpt($post) ? get_the_excerpt($post) : '',
@@ -424,7 +424,7 @@ function ama_tutoriais_items(): array
         ];
     }
 
-    usort($items, static fn(array $a, array $b): int => strcasecmp(remove_accents($a['title']), remove_accents($b['title'])));
+    usort($items, static fn(array $a, array $b): int => strcasecmp(remove_accents(wp_strip_all_tags($a['title'])), remove_accents(wp_strip_all_tags($b['title']))));
 
     return $items;
 }
@@ -439,7 +439,7 @@ function ama_tutoriais_list(array $items, bool $with_category): string
         $html .= sprintf(
             '<li><a href="%s">%s</a>%s%s</li>',
             esc_url($item['url']),
-            esc_html($item['title']),
+            $item['title'],
             $with_category && $item['category'] ? '<span class="d-block small">' . esc_html($item['category']->name) . '</span>' : '',
             $item['description'] !== '' ? '<span class="d-block small">' . esc_html($item['description']) . '</span>' : ''
         );
@@ -473,7 +473,7 @@ function ama_tutoriais_shortcode(): string
             . '<div class="card-footer"><div class="icons_tutorials">%s</div></div></li>',
             $item['category'] ? '<p class="card-text">' . esc_html($item['category']->name) . '</p>' : '',
             esc_url($item['url']),
-            esc_html($item['title']),
+            $item['title'],
             $item['icon']
         );
     }

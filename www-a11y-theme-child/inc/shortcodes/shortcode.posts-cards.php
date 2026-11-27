@@ -71,7 +71,7 @@ function posts_cards_cb( $attrs ): string {
                         <div class="post-body">
                             <h3 class="post-title">
                                 <a href="' . esc_url( get_permalink( $item->ID ) ) . '">'
-                                    . esc_html( get_the_title( $item->ID ) ) .
+                                    . ama_titulo_html( $item->ID ) .
                                 '</a>
                             </h3>
                             <p class="post-date">'

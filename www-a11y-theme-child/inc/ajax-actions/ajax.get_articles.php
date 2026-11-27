@@ -52,7 +52,7 @@ function get_articles(){
 		                            <div class="d-sm-block d-none">
 		                                <p>'.$description.'</p>
 		                                <div class="d-inline-flex read_more">
-		                                    <a class="ama btn btn-secondary" href="'.$home.'/blogue/'.$category[0]->slug.'/'.$all_articles->post_name.'" title="'.$all_articles->post_title.'">Ler mais</a>
+		                                    <a class="ama btn btn-secondary" href="'.$home.'/blogue/'.$category[0]->slug.'/'.$all_articles->post_name.'" title="'.esc_attr(ama_titulo_texto($all_articles)).'">Ler mais</a>
 		                                </div>
 		                            </div>
 		                        </li>';

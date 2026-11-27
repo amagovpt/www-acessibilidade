@@ -97,7 +97,7 @@ get_header();
                                 <p class="mb-4">Partilhe connosco as sugestões, comentários ou dúvidas através do e-mail <a href="mailto:acessibilidade@ama.gov.pt">acessibilidade@ama.gov.pt</a>, ou via GitHub.</p>
                                 <ul class="ama-list d-flex flex-row gap-3">
                                     <li>
-                                        <a href="mailto:acessibilidade@gov.pt?subject=Sugestão de melhoria para o tutorial: <?= get_the_title() ?>" title="Sugestão de melhoria para o tutorial: <?= get_the_title() ?>">Enviar email</a>
+                                        <?= ama_titulo_link_sugestao() ?>
                                     </li>
                                     <li>
                                         <a href="https://github.com">Github</a>

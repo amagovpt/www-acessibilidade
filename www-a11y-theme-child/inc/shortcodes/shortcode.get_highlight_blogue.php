@@ -34,7 +34,7 @@ function get_highlight_blogue(): ?string {
             <span class="mb-3"><?= $date ?></span>
             <p class="mb-3"><?=  (wp_trim_words( $descricao, 20)) ?></p>
             <div>
-                <a class="ama btn btn-secondary" href="<?= get_permalink($highlight_article->display('ID')) ?>" title="<?= $highlight_article->display('post_title') ?>">Ler mais</a>
+                <a class="ama btn btn-secondary" href="<?= get_permalink($highlight_article->display('ID')) ?>" title="<?= esc_attr(ama_titulo_texto((int) $highlight_article->display('ID'))) ?>">Ler mais</a>
             </div>
         </div>
         <div class="d-flex align-items-center" id="blogue_left">
@@ -58,7 +58,7 @@ function get_highlight_blogue(): ?string {
                         <span class="mb-3">'.$date.'</span>
                         <p class="mb-3">'. wp_trim_words( $descricao, 20).'</p>
                         <div>
-                            <a class="ama btn btn-secondary" href="'.$home.'/blogue/'.$category_highlight[0]->slug.'/'.$highlight_article->display('post_name').'/" title="'.$highlight_article->display('post_title').'">Ler mais</a>
+                            <a class="ama btn btn-secondary" href="'.$home.'/blogue/'.$category_highlight[0]->slug.'/'.$highlight_article->display('post_name').'/" title="'.esc_attr(ama_titulo_texto((int) $highlight_article->display('ID'))).'">Ler mais</a>
                         </div>
                     </div>
                     <div class="d-flex align-items-center" id="blogue_left">

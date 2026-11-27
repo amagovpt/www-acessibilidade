@@ -25,7 +25,7 @@ function get_tutorials_home($attrs = []): string
 
     $output = '';
     foreach (array_slice($items, 0, $total) as $item) {
-        $output .= sprintf('<li><a href="%s">%s</a></li>', esc_url($item['url']), esc_html($item['title']));
+        $output .= sprintf('<li><a href="%s">%s</a></li>', esc_url($item['url']), $item['title']);
     }
 
     $root_id = ama_tutoriais_root_id();

@@ -6,7 +6,7 @@ if(has_post_thumbnail(get_the_ID())) {
     $post_thumbnail_id = (get_post_meta(get_the_ID(), "imagem", true)) ? get_post_meta(get_the_ID(), "imagem", true)["ID"] : 0;
 }
 ?>
-<a href="<?= get_permalink() ?>" title="<?= the_title(); ?>" class="post-card-wrapper">
+<a href="<?= get_permalink() ?>" title="<?= esc_attr(ama_titulo_texto()) ?>" class="post-card-wrapper">
     <article class="post-card">
         <div class="post-thumbnail">
             <?= wp_get_attachment_image($post_thumbnail_id, "fullwidth", false, ["class" => "img-fluid"]) ?>
